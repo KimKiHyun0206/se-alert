@@ -9,10 +9,12 @@ import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.DynamicUpdate;
 
 @Entity
 @Getter
 @NoArgsConstructor
+@DynamicUpdate
 public class Student extends BaseEntity {
 
     @Id
@@ -34,8 +36,6 @@ public class Student extends BaseEntity {
         this.permission = permission;
     }
 
-
-
     public StudentResponse toResponse(){
         return StudentResponse
                 .builder()
@@ -46,5 +46,13 @@ public class Student extends BaseEntity {
                 .aboutMe(aboutMe)
                 .permission(permission)
                 .build();
+    }
+
+    public void update(Long id, String password, Name name, PhoneNumber phoneNumber, String aboutMe) {
+        this.id = id;
+        this.password = password;
+        this.name = name;
+        this.phoneNumber = phoneNumber;
+        this.aboutMe = aboutMe;
     }
 }
