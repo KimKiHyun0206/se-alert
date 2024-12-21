@@ -14,5 +14,5 @@ insert into permission (permission_name, notice, enroll)
 values ('ADMIN', 1, 1);
 
 
-insert into student (id, password, name, phone_number, about_me)
-values (202158031, 123456789, 'kim', '010-8380-8775', 'backend');
+insert into student (id, password, name, phone_number, about_me, permission)
+values (202158031, 123456789, 'kim', '010-8380-8775', 'backend',5);
