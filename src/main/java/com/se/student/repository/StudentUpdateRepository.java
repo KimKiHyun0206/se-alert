@@ -4,6 +4,7 @@ import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.Path;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import com.querydsl.jpa.impl.JPAUpdateClause;
 import com.se.error.exception.student.InvalidIdException;
 import com.se.student.domain.Student;
 import com.se.student.domain.vo.Name;
@@ -11,7 +12,6 @@ import com.se.student.domain.vo.PhoneNumber;
 import com.se.student.dto.request.StudentUpdateRequest;
 import com.se.student.dto.response.StudentResponse;
 import jakarta.persistence.EntityManager;
-import org.hibernate.grammars.hql.HqlParser;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -34,20 +34,25 @@ public class StudentUpdateRepository {
 
     @Transactional
     public StudentResponse update(Long id, StudentUpdateRequest request) {
-        queryFactory
+        JPAUpdateClause clause = queryFactory
                 .update(student)
                 .set(student.id, request.getId())
                 .set(student.name, new Name(request.getName()))
-                .set(student.password, passwordEncoder.encode(request.getPassword()))
+                .set(student.password, request.getPassword())
                 .set(student.phoneNumber, new PhoneNumber(request.getPhoneNumber()))
-                .set(student.aboutMe, request.getAboutMe())
-                .execute();
+                .set(student.aboutMe, request.getAboutMe());
+
+        if (request.getId() != null) clause.set(student.id, request.getId());
+        if (request.getPassword() != null) clause.set(student.password, request.getPassword());
+        if (request.getName() != null) clause.set(student.name, new Name(request.getName()));
+        if (request.getPhoneNumber() != null) clause.set(student.phoneNumber, new PhoneNumber(request.getPhoneNumber()));
+        if (request.getAboutMe() != null) clause.set(student.aboutMe, request.getAboutMe());
 
         finishUpdate();
 
         return queryFactory
                 .selectFrom(student)
-                .where(studentIdEq(id))
+                .where(studentIdEq(request.getId()))
                 .fetchOne()
                 .toResponse();
     }
