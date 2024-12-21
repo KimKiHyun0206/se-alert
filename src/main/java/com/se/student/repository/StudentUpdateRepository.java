@@ -3,9 +3,12 @@ package com.se.student.repository;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.Path;
 import com.querydsl.core.types.dsl.BooleanExpression;
+import com.querydsl.core.types.dsl.EntityPathBase;
+import com.querydsl.core.types.dsl.NumberPath;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.querydsl.jpa.impl.JPAUpdateClause;
 import com.se.error.exception.student.InvalidIdException;
+import com.se.student.domain.QStudent;
 import com.se.student.domain.Student;
 import com.se.student.domain.vo.Name;
 import com.se.student.domain.vo.PhoneNumber;
@@ -32,15 +35,18 @@ public class StudentUpdateRepository {
     }
 
 
+    /**
+     * @implNote JPAUpdateClause에 자체적으로 null인지 검사해주는 기능이 있는데 String이 만약 "" 값이라면 이를 걸러내지 못하는 문제점이 있다
+     * */
     @Transactional
-    public StudentResponse update(Long id, StudentUpdateRequest request) {
+    public StudentResponse update(String id, StudentUpdateRequest request) {
         JPAUpdateClause clause = queryFactory
-                .update(student)
-                .set(student.id, request.getId())
+                .update(student);
+                /*.set(student.id, request.getId())
                 .set(student.name, new Name(request.getName()))
                 .set(student.password, request.getPassword())
                 .set(student.phoneNumber, new PhoneNumber(request.getPhoneNumber()))
-                .set(student.aboutMe, request.getAboutMe());
+                .set(student.aboutMe, request.getAboutMe());*/
 
         if (request.getId() != null) clause.set(student.id, request.getId());
         if (request.getPassword() != null) clause.set(student.password, request.getPassword());
@@ -57,7 +63,7 @@ public class StudentUpdateRepository {
                 .toResponse();
     }
 
-    private BooleanExpression studentIdEq(Long id) {
+    private BooleanExpression studentIdEq(String id) {
         return id != null ? student.id.eq(id) : null;
     }
 

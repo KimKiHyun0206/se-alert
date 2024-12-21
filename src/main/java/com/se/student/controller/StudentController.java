@@ -24,7 +24,7 @@ public class StudentController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> getStudent(@PathVariable(value = "id") Long id) {
+    public ResponseEntity<?> getStudent(@PathVariable(value = "id") String id) {
         return ResponseDto.toResponseEntity(
                 ResponseMessage.SUCCESS_LOAD_STUDENT_INFORMATION,
                 repository.findById(id)

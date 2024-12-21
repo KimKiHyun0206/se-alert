@@ -18,7 +18,7 @@ import org.hibernate.annotations.DynamicUpdate;
 public class Student extends BaseEntity {
 
     @Id
-    private Long id;
+    private String id;
     @Convert(converter = PasswordEncodeConverter.class)
     private String password;
     private Name name;
@@ -27,7 +27,7 @@ public class Student extends BaseEntity {
     private Long permission;
 
     @Builder
-    public Student(Long id, String password, Name name, PhoneNumber phoneNumber, String aboutMe, Long permission) {
+    public Student(String id, String password, Name name, PhoneNumber phoneNumber, String aboutMe, Long permission) {
         this.id = id;
         this.password = password;
         this.name = name;
@@ -48,7 +48,7 @@ public class Student extends BaseEntity {
                 .build();
     }
 
-    public void update(Long id, String password, Name name, PhoneNumber phoneNumber, String aboutMe) {
+    public void update(String id, String password, Name name, PhoneNumber phoneNumber, String aboutMe) {
         this.id = id;
         this.password = password;
         this.name = name;

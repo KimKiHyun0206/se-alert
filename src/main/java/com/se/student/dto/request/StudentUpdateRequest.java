@@ -5,7 +5,7 @@ import lombok.Data;
 
 @Data
 public class StudentUpdateRequest {
-    private Long id;
+    private String id;
     private String password;
     private String name;
     private String phoneNumber;

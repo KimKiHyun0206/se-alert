@@ -5,6 +5,11 @@ import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
 
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
+
 @Entity
 @Table(name = "permission")
 @NoArgsConstructor
@@ -21,5 +26,12 @@ public class Permission extends BaseEntity {
         this.permissionName = permissionName;
         this.notice = notice;
         this.enroll = enroll;
+    }
+
+    public Set<String> getPermissions() {
+        Set<String> permissions = new HashSet<>();
+        if(notice) permissions.add("NOTICE");
+        if(enroll) permissions.add("ENROLL");
+        return permissions;
     }
 }

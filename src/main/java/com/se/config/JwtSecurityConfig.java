@@ -1,5 +1,7 @@
-package com.se.jwt;
+package com.se.config;
 
+import com.se.jwt.filter.JwtFilter;
+import com.se.jwt.provider.TokenProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.SecurityConfigurerAdapter;

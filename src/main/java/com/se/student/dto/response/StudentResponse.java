@@ -7,7 +7,7 @@ import lombok.Data;
 
 @Data
 public class StudentResponse {
-    private Long id;
+    private String id;
     private String password;
     private String name;
     private String phoneNumber;
@@ -16,7 +16,7 @@ public class StudentResponse {
 
 
     @Builder
-    public StudentResponse(Long id, String password, Name name, PhoneNumber phoneNumber, String aboutMe,Long permission) {
+    public StudentResponse(String id, String password, Name name, PhoneNumber phoneNumber, String aboutMe,Long permission) {
         this.id = id;
         this.password = password;
         this.name = name.getName();

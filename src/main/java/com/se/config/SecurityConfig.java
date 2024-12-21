@@ -1,9 +1,8 @@
 package com.se.config;
 
-import com.se.jwt.JwtAccessDeniedHandler;
-import com.se.jwt.JwtAuthenticationEntryPoint;
-import com.se.jwt.JwtSecurityConfig;
-import com.se.jwt.TokenProvider;
+import com.se.jwt.handler.JwtAccessDeniedHandler;
+import com.se.jwt.handler.JwtAuthenticationEntryPoint;
+import com.se.jwt.provider.TokenProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;

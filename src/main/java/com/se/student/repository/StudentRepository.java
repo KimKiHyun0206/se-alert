@@ -48,7 +48,7 @@ public class StudentRepository {
      * @param id 조회할 학번
      */
     @Transactional(readOnly = true)
-    public StudentResponse findById(Long id) {
+    public StudentResponse findById(String id) {
         return queryFactory
                 .selectFrom(student)
                 .where(studentIdEq(id))
@@ -56,7 +56,7 @@ public class StudentRepository {
                 .toResponse();
     }
 
-    private BooleanExpression studentIdEq(Long id) {
+    private BooleanExpression studentIdEq(String id) {
         return id != null ? student.id.eq(id) : null;
     }
 

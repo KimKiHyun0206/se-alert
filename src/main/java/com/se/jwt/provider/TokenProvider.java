@@ -1,4 +1,4 @@
-package com.se.jwt;
+package com.se.jwt.provider;
 
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;

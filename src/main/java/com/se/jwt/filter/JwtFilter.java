@@ -1,7 +1,8 @@
-package com.se.jwt;
+package com.se.jwt.filter;
 
 import com.se.error.exception.redis.InvalidJwtException;
 import com.se.error.exception.redis.RedisErrorException;
+import com.se.jwt.provider.TokenProvider;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

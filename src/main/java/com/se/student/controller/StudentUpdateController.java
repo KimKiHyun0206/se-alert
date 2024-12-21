@@ -19,7 +19,7 @@ public class StudentUpdateController {
     private final StudentUpdateRepository studentRepository;
 
     @PatchMapping("/{id}")
-    public ResponseEntity<?> update(@PathVariable(value = "id") Long id, StudentUpdateRequest request) {
+    public ResponseEntity<?> update(@PathVariable(value = "id") String id, StudentUpdateRequest request) {
         return ResponseDto.toResponseEntity(
                 ResponseMessage.SUCCESS_UPDATE_STUDENT,
                 studentRepository.update(id, request)
