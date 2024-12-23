@@ -8,11 +8,11 @@ public class NoticeResponse {
     private Long id;
     private String title;
     private String content;
-    private Long senderId;
+    private String senderId;
     private Long receiverPermission;
 
     @Builder
-    public NoticeResponse(Long id, String title, String content, Long senderId, Long receiverPermission) {
+    public NoticeResponse(Long id, String title, String content, String senderId, Long receiverPermission) {
         this.id = id;
         this.title = title;
         this.content = content;

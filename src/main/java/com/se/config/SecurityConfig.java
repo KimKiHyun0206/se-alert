@@ -52,6 +52,7 @@ public class SecurityConfig {
                         .requestMatchers("/**", "/swagger-ui.html", "/api/v1/**", "/api/v1/**/**", "/swagger-ui/index.html","/api/v1/login").permitAll()
                         //.requestMatchers("/**", "/swagger-ui.html", "/api/v1/**", "/api/v1/**/**").authenticated()
                         .requestMatchers(PathRequest.toH2Console()).permitAll()
+                        .requestMatchers("/api/v1/notice/**").hasAnyAuthority("NOTICE")
                         .anyRequest().authenticated()
                 )
 

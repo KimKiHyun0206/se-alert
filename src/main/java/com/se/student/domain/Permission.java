@@ -30,6 +30,7 @@ public class Permission extends BaseEntity {
 
     public Set<String> getPermissions() {
         Set<String> permissions = new HashSet<>();
+        permissions.add("USER");
         if(notice) permissions.add("NOTICE");
         if(enroll) permissions.add("ENROLL");
         return permissions;

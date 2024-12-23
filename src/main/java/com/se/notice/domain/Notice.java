@@ -18,11 +18,11 @@ public class Notice extends BaseEntity {
     private Long id;
     private String title;
     private String content;
-    private Long senderId;
+    private String senderId;
     private Long receiverPermission;
 
     @Builder
-    public Notice(String title, String content, Long senderId, Long receiverPermission) {
+    public Notice(String title, String content, String senderId, Long receiverPermission) {
         this.title = title;
         this.content = content;
         this.senderId = senderId;

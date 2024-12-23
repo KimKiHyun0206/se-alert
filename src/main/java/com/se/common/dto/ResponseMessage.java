@@ -32,6 +32,12 @@ public enum ResponseMessage {
     DELETE_SUCCESS_BOARD(HttpStatus.OK,"해당 Board 삭제 성공 했습니다."),
     //UPLOAD_IMAGE_SUCCESS(HttpStatus.CREATED, "이미지 업로드 성공"),
 
+
+    //NOTICE
+    NOTICE_CREATE_SUCCESS(HttpStatus.OK,"공지 생성 성공했습니다"),
+    NOTICE_UPDATE_SUCCESS(HttpStatus.OK, "공지 수정 성공했습니다"),
+    NOTICE_FIND_SUCCESS(HttpStatus.OK,"공지 조회 성공했습니다"),
+
     ;
 
     public final static String SUCCESS_MESSAGE = "SUCCESS";
