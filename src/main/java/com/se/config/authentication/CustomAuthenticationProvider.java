@@ -5,15 +5,11 @@ import com.se.error.exception.student.InvalidPasswordException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationProvider;
-import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
-
-import java.util.Collection;
 
 
 @Slf4j
@@ -28,10 +24,10 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
         log.info("CustomAuthenticationProvider : {}", authentication.getName());
 
-        String username = authentication.getName();
+        String id = authentication.getName();
         String password = (String) authentication.getCredentials();
 
-        UserDetails userDetails = loginRepository.loadUserByUsername(username);
+        UserDetails userDetails = loginRepository.loadUserByUsername(id);
 
         // password 일치하지 않으면!
         if (!passwordEncoder.matches(password, userDetails.getPassword())) {
