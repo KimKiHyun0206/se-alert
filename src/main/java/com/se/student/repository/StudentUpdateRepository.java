@@ -41,7 +41,7 @@ public class StudentUpdateRepository {
     @Transactional
     public StudentResponse update(String id, StudentUpdateRequest request) {
         JPAUpdateClause clause = queryFactory
-                .update(student);
+                .update(student).where(studentIdEq(id));
                 /*.set(student.id, request.getId())
                 .set(student.name, new Name(request.getName()))
                 .set(student.password, request.getPassword())
