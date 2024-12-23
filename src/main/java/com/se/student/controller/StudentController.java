@@ -16,7 +16,7 @@ public class StudentController {
     private final StudentRepository repository;
 
     @PostMapping
-    public ResponseEntity<?> register(StudentRegisterRequest request) {
+    public ResponseEntity<?> create(StudentRegisterRequest request) {
         return ResponseDto.toResponseEntity(
                 ResponseMessage.CREATE_SUCCESS_STUDENT,
                 repository.save(request)
@@ -24,7 +24,7 @@ public class StudentController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> getStudent(@PathVariable(value = "id") String id) {
+    public ResponseEntity<?> read(@PathVariable(value = "id") String id) {
         return ResponseDto.toResponseEntity(
                 ResponseMessage.SUCCESS_LOAD_STUDENT_INFORMATION,
                 repository.findById(id)
@@ -32,7 +32,7 @@ public class StudentController {
     }
 
     @GetMapping
-    public ResponseEntity<?> getAllStudents() {
+    public ResponseEntity<?> readAll() {
         return ResponseDto.toResponseEntity(
                 ResponseMessage.SUCCESS_SEARCH_ALL_STUDENT,
                 repository.findAll()
@@ -40,7 +40,7 @@ public class StudentController {
     }
 
     @GetMapping("/student-number/{year}")
-    public ResponseEntity<?> getStudentByYear(@PathVariable(value = "year") Long year) {
+    public ResponseEntity<?> readByYear(@PathVariable(value = "year") Long year) {
         return ResponseDto.toResponseEntity(
                 ResponseMessage.SUCCESS_SEARCH_STUDENT_NUMBER,
                 repository.findByYear(year)
@@ -48,7 +48,7 @@ public class StudentController {
     }
 
     @GetMapping("/name/{name}")
-    public ResponseEntity<?> getStudentByName(@PathVariable(value = "name") String name) {
+    public ResponseEntity<?> readByName(@PathVariable(value = "name") String name) {
         return ResponseDto.toResponseEntity(
                 ResponseMessage.SUCCESS_SEARCH_STUDENT_NAME,
                 repository.findByName(name)
@@ -56,7 +56,7 @@ public class StudentController {
     }
 
     @GetMapping("/permission/{permission}")
-    public ResponseEntity<?> getStudentByPermission(@PathVariable(value = "permission") Long permission) {
+    public ResponseEntity<?> readByPermission(@PathVariable(value = "permission") Long permission) {
         return ResponseDto.toResponseEntity(
                 ResponseMessage.SUCCESS_SEARCH_STUDENT_PERMISSION,
                 repository.findByPermission(permission)
