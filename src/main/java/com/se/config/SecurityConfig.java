@@ -1,5 +1,6 @@
 package com.se.config;
 
+import com.se.auth.repository.LoginRepository;
 import com.se.jwt.handler.JwtAccessDeniedHandler;
 import com.se.jwt.handler.JwtAuthenticationEntryPoint;
 import com.se.jwt.provider.TokenProvider;
@@ -7,12 +8,14 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.filter.CorsFilter;
@@ -27,6 +30,12 @@ public class SecurityConfig {
     private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
     private final JwtAccessDeniedHandler jwtAccessDeniedHandler;
 
+
+    @Bean
+    public AuthenticationProvider authenticationProvider(PasswordEncoder passwordEncoder, LoginRepository loginRepository) {
+        return new CustomAuthenticationProvider(passwordEncoder, loginRepository);
+    }
+
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
@@ -39,7 +48,7 @@ public class SecurityConfig {
                 )
 
                 .authorizeHttpRequests(authorizeHttpRequests -> authorizeHttpRequests
-                        .requestMatchers("/**", "/swagger-ui.html", "/api/v1/**", "/api/v1/**/**", "/swagger-ui/index.html").permitAll()
+                        .requestMatchers("/**", "/swagger-ui.html", "/api/v1/**", "/api/v1/**/**", "/swagger-ui/index.html","/api/v1/login").permitAll()
                         //.requestMatchers("/**", "/swagger-ui.html", "/api/v1/**", "/api/v1/**/**").authenticated()
                         .requestMatchers(PathRequest.toH2Console()).permitAll()
                         .anyRequest().authenticated()

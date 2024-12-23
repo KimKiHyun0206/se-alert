@@ -10,8 +10,14 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class LoginService {
     private final LoginRepository loginRepository;
+
+    /**
+     * @param username student id
+     * @param password student password
+     * */
     public UserDetails login(String username, String password) {
         UserDetails userDetails = loginRepository.loadUserByUsername(username);
+
         if(userDetails.getPassword().equals(password)) {
             return userDetails;
         }
