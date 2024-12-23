@@ -88,8 +88,8 @@ public class TokenProvider implements InitializingBean {
 
         // redis에 저장
         redisTemplate.opsForValue().set(
-                authentication.getName(),
                 refreshToken,
+                authentication.getName(),
                 tokenValidityInMilliseconds,
                 TimeUnit.MILLISECONDS
         );
