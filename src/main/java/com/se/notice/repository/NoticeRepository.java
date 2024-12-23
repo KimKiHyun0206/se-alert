@@ -7,6 +7,7 @@ import com.se.notice.dto.NoticeResponse;
 import com.se.notice.dto.request.NoticeRegisterRequest;
 import com.se.notice.dto.request.NoticeUpdateRequest;
 import jakarta.persistence.EntityManager;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -14,6 +15,7 @@ import java.util.List;
 
 import static com.se.notice.domain.QNotice.notice;
 
+@Slf4j
 @Repository
 public class NoticeRepository {
     private final EntityManager em;
@@ -85,5 +87,10 @@ public class NoticeRepository {
     private void finishUpdate() {
         em.clear();
         em.flush();
+    }
+
+    public void delete(Long id) {
+        long execute = queryFactory.delete(notice).where(noticeIdEq(id)).execute();
+        log.info("[ SYSTEM ] NOTICE DELETE {}", execute);
     }
 }

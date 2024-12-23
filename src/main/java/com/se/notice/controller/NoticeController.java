@@ -5,8 +5,7 @@ import com.se.common.dto.ResponseMessage;
 import com.se.notice.dto.NoticeResponse;
 import com.se.notice.dto.request.NoticeRegisterRequest;
 import com.se.notice.dto.request.NoticeUpdateRequest;
-import com.se.notice.repository.NoticeRepository;
-import io.lettuce.core.dynamic.annotation.Param;
+import com.se.notice.service.NoticeService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -19,30 +18,44 @@ import java.util.List;
 @RequestMapping("/api/v1/notice")
 public class NoticeController {
 
-    private final NoticeRepository noticeRepository;
+    private final NoticeService noticeService;
 
     @PostMapping
-    public ResponseEntity<?> postNotice(NoticeRegisterRequest request, HttpServletRequest httpServletRequest) {
-        String name = httpServletRequest.getUserPrincipal().getName();
-        NoticeResponse save = noticeRepository.save(request, name);
+    public ResponseEntity<?> createNotice(NoticeRegisterRequest request, HttpServletRequest httpServletRequest) {
+        String id = httpServletRequest.getUserPrincipal().getName();
+        NoticeResponse save = noticeService.register(request, id);
         return ResponseDto.toResponseEntity(ResponseMessage.NOTICE_CREATE_SUCCESS, save);
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<?> updateNote(NoticeUpdateRequest request, @PathVariable(value = "id") Long id) {
-        NoticeResponse update = noticeRepository.update(request, id);
-        return ResponseDto.toResponseEntity(ResponseMessage.NOTICE_UPDATE_SUCCESS, update);
+    public ResponseEntity<?> updateNotice(
+            NoticeUpdateRequest request,
+            @PathVariable(value = "id") Long id,
+            HttpServletRequest httpServletRequest
+    ) {
+        String writerId = httpServletRequest.getUserPrincipal().getName();
+        NoticeResponse update = noticeService.update(request, id, writerId);
+        return update != null ?
+                ResponseDto.toResponseEntity(ResponseMessage.NOTICE_UPDATE_SUCCESS, update) :
+                ResponseDto.toResponseEntity(ResponseMessage.NOTICE_UPDATE_FAILED, null);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> get(@PathVariable(value = "id") Long id) {
-        NoticeResponse notice = noticeRepository.findById(id);
+    public ResponseEntity<?> read(@PathVariable(value = "id") Long id) {
+        NoticeResponse notice = noticeService.get(id);
         return ResponseDto.toResponseEntity(ResponseMessage.NOTICE_FIND_SUCCESS, notice);
     }
 
     @GetMapping
-    public ResponseEntity<?> getAll(@RequestParam(value = "page", defaultValue = "10") Long page) {
-        List<NoticeResponse> all = noticeRepository.findAll(page);
+    public ResponseEntity<?> readAll(@RequestParam(value = "page", defaultValue = "10") Long page) {
+        List<NoticeResponse> all = noticeService.getAll(page);
         return ResponseDto.toResponseEntity(ResponseMessage.NOTICE_FIND_SUCCESS, all);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> delete(@PathVariable(value = "id") Long noticeId, HttpServletRequest httpServletRequest) {
+        String id = httpServletRequest.getUserPrincipal().getName();
+        noticeService.delete(noticeId, id);
+        return ResponseDto.toResponseEntity(ResponseMessage.NOTICE_DELETE_SUCCESS, null);
     }
 }

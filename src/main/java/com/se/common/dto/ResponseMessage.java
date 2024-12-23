@@ -37,6 +37,8 @@ public enum ResponseMessage {
     NOTICE_CREATE_SUCCESS(HttpStatus.OK,"공지 생성 성공했습니다"),
     NOTICE_UPDATE_SUCCESS(HttpStatus.OK, "공지 수정 성공했습니다"),
     NOTICE_FIND_SUCCESS(HttpStatus.OK,"공지 조회 성공했습니다"),
+    NOTICE_DELETE_SUCCESS(HttpStatus.NO_CONTENT,"공지 삭제 성공했습니다"),
+    NOTICE_UPDATE_FAILED(HttpStatus.BAD_REQUEST, "공지 수정에 실패했습니다"),
 
     ;
 
