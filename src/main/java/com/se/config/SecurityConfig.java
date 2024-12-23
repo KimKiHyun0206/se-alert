@@ -1,6 +1,7 @@
 package com.se.config;
 
 import com.se.auth.repository.LoginRepository;
+import com.se.config.authentication.CustomAuthenticationProvider;
 import com.se.jwt.handler.JwtAccessDeniedHandler;
 import com.se.jwt.handler.JwtAuthenticationEntryPoint;
 import com.se.jwt.provider.TokenProvider;

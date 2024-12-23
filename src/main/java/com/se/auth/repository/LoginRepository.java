@@ -35,7 +35,8 @@ public class LoginRepository implements UserDetailsService {
                 .selectFrom(student)
                 .where(studentIdEq(Long.valueOf(username)))
                 .fetchOne();
-        if (loaded == null) throw new InvalidIdException(Long.valueOf(username));
+
+        if (loaded == null) throw new InvalidIdException(username);
 
         return createUser(loaded);
     }

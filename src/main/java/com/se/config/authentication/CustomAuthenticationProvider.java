@@ -1,16 +1,22 @@
-package com.se.config;
+package com.se.config.authentication;
 
 import com.se.auth.repository.LoginRepository;
+import com.se.error.exception.student.InvalidPasswordException;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import java.util.Collection;
 
+
+@Slf4j
 @RequiredArgsConstructor
 public class CustomAuthenticationProvider implements AuthenticationProvider {
     private final PasswordEncoder passwordEncoder;
@@ -20,24 +26,23 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
     // 검쯩을 위한 구현
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
+        log.info("CustomAuthenticationProvider : {}", authentication.getName());
 
         String username = authentication.getName();
-        String password = (String)authentication.getCredentials();
+        String password = (String) authentication.getCredentials();
 
         UserDetails userDetails = loginRepository.loadUserByUsername(username);
 
         // password 일치하지 않으면!
-        if(!passwordEncoder.matches(password,userDetails.getPassword())){
-            throw new BadCredentialsException("BadCredentialsException");
+        if (!passwordEncoder.matches(password, userDetails.getPassword())) {
+            throw new InvalidPasswordException();
         }
 
-        UsernamePasswordAuthenticationToken authenticationToken
-                = new UsernamePasswordAuthenticationToken(
-                        userDetails.getUsername(),
+        return new UsernamePasswordAuthenticationToken(
+                userDetails.getUsername(),
                 null,
-                userDetails.getAuthorities());
-
-        return authenticationToken;
+                userDetails.getAuthorities()
+        );
     }
 
     // 토큰 타입과 일치할 때 인증
