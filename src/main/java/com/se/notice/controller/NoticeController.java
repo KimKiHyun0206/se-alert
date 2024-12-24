@@ -42,13 +42,13 @@ public class NoticeController {
 
     @GetMapping("/{id}")
     public ResponseEntity<?> read(@PathVariable(value = "id") Long id) {
-        NoticeResponse notice = noticeService.get(id);
+        NoticeResponse notice = noticeService.read(id);
         return ResponseDto.toResponseEntity(ResponseMessage.NOTICE_FIND_SUCCESS, notice);
     }
 
     @GetMapping
     public ResponseEntity<?> readAll(@RequestParam(value = "page", defaultValue = "10") Long page) {
-        List<NoticeResponse> all = noticeService.getAll(page);
+        List<NoticeResponse> all = noticeService.readAll(page);
         return ResponseDto.toResponseEntity(ResponseMessage.NOTICE_FIND_SUCCESS, all);
     }
 

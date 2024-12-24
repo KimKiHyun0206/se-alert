@@ -27,7 +27,7 @@ public class StudentRepository {
     }
 
     @Transactional
-    public StudentResponse save(StudentCreateRequest request) {
+    public StudentResponse create(StudentCreateRequest request) {
         Student save = Student.builder()
                 .id(request.getId())
                 .name(new Name(request.getName()))
@@ -46,7 +46,7 @@ public class StudentRepository {
      * @param id 조회할 학번
      */
     @Transactional(readOnly = true)
-    public StudentResponse findById(String id) {
+    public StudentResponse readById(String id) {
         return queryFactory
                 .selectFrom(student)
                 .where(studentIdEq(id))
@@ -60,7 +60,7 @@ public class StudentRepository {
 
 
     @Transactional(readOnly = true)
-    public List<StudentResponse> findAll() {
+    public List<StudentResponse> readAll() {
         return queryFactory
                 .selectFrom(student)
                 .stream()
@@ -73,7 +73,7 @@ public class StudentRepository {
      * @implSpec like 문을 사용
      */
     @Transactional(readOnly = true)
-    public List<StudentResponse> findByYear(Long year) {
+    public List<StudentResponse> readByYear(Long year) {
         return queryFactory
                 .selectFrom(student)
                 .where(student.id.like("__" + year + "%"))
@@ -87,7 +87,7 @@ public class StudentRepository {
      * @param name 조회하는데 필요한 이름
      */
     @Transactional(readOnly = true)
-    public List<StudentResponse> findByName(String name) {
+    public List<StudentResponse> readByName(String name) {
         return queryFactory
                 .selectFrom(student)
                 .where(studentNameEq(name))
@@ -101,7 +101,7 @@ public class StudentRepository {
         return name != null ? student.name.eq(new Name(name)) : null;
     }
 
-    public List<StudentResponse> findByPermission(Long permission) {
+    public List<StudentResponse> readByPermission(Long permission) {
         return queryFactory
                 .selectFrom(student)
                 .where(studentPermissionEq(permission))

@@ -28,7 +28,7 @@ public class NoticeRepository {
 
 
     @Transactional
-    public NoticeResponse save(NoticeCreateRequest request, String senderId) {
+    public NoticeResponse create(NoticeCreateRequest request, String senderId) {
         Notice notice = Notice.builder()
                 .title(request.getTitle())
                 .content(request.getContent())
@@ -42,7 +42,7 @@ public class NoticeRepository {
 
 
     @Transactional(readOnly = true)
-    public NoticeResponse findById(Long id) {
+    public NoticeResponse readById(Long id) {
         return queryFactory
                 .selectFrom(notice)
                 .where(noticeIdEq(id))
@@ -51,7 +51,7 @@ public class NoticeRepository {
     }
 
     @Transactional(readOnly = true)
-    public List<NoticeResponse> findAll(Long num) {
+    public List<NoticeResponse> readAll(Long num) {
         return queryFactory
                 .selectFrom(notice)
                 .limit(num)

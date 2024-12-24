@@ -19,7 +19,7 @@ public class StudentController {
     public ResponseEntity<?> create(StudentCreateRequest request) {
         return ResponseDto.toResponseEntity(
                 ResponseMessage.CREATE_SUCCESS_STUDENT,
-                repository.save(request)
+                repository.create(request)
         );
     }
 
@@ -27,7 +27,7 @@ public class StudentController {
     public ResponseEntity<?> read(@PathVariable(value = "id") String id) {
         return ResponseDto.toResponseEntity(
                 ResponseMessage.SUCCESS_LOAD_STUDENT_INFORMATION,
-                repository.findById(id)
+                repository.readById(id)
         );
     }
 
@@ -35,7 +35,7 @@ public class StudentController {
     public ResponseEntity<?> readAll() {
         return ResponseDto.toResponseEntity(
                 ResponseMessage.SUCCESS_SEARCH_ALL_STUDENT,
-                repository.findAll()
+                repository.readAll()
         );
     }
 
@@ -43,7 +43,7 @@ public class StudentController {
     public ResponseEntity<?> readByYear(@PathVariable(value = "year") Long year) {
         return ResponseDto.toResponseEntity(
                 ResponseMessage.SUCCESS_SEARCH_STUDENT_NUMBER,
-                repository.findByYear(year)
+                repository.readByYear(year)
         );
     }
 
@@ -51,7 +51,7 @@ public class StudentController {
     public ResponseEntity<?> readByName(@PathVariable(value = "name") String name) {
         return ResponseDto.toResponseEntity(
                 ResponseMessage.SUCCESS_SEARCH_STUDENT_NAME,
-                repository.findByName(name)
+                repository.readByName(name)
         );
     }
 
@@ -59,7 +59,7 @@ public class StudentController {
     public ResponseEntity<?> readByPermission(@PathVariable(value = "permission") Long permission) {
         return ResponseDto.toResponseEntity(
                 ResponseMessage.SUCCESS_SEARCH_STUDENT_PERMISSION,
-                repository.findByPermission(permission)
+                repository.readByPermission(permission)
         );
     }
 }
