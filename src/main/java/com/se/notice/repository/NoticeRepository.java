@@ -66,6 +66,7 @@ public class NoticeRepository {
     public NoticeResponse update(NoticeUpdateRequest request, Long noticeId) {
         queryFactory
                 .update(notice)
+                .where(noticeIdEq(noticeId))
                 .set(notice.title, request.getTitle())
                 .set(notice.receiverPermission, request.getReceiverPermission())
                 .set(notice.content, request.getContent())
@@ -73,15 +74,15 @@ public class NoticeRepository {
 
         finishUpdate();
 
-        return queryFactory
-                .selectFrom(notice)
-                .where(noticeIdEq(noticeId))
-                .fetchOne()
-                .toResponse();
+        return readById(noticeId);
     }
 
     private BooleanExpression noticeIdEq(Long noticeId) {
         return noticeId != null ? notice.id.eq(noticeId) : null;
+    }
+
+    private BooleanExpression writerIdEq(String writerId) {
+        return writerId != null ? notice.senderId.eq(writerId) : null;
     }
 
     private void finishUpdate() {

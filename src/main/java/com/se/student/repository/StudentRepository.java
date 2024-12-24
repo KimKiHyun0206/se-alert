@@ -2,10 +2,12 @@ package com.se.student.repository;
 
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import com.querydsl.jpa.impl.JPAUpdateClause;
 import com.se.student.domain.Student;
 import com.se.student.domain.vo.Name;
 import com.se.student.domain.vo.PhoneNumber;
 import com.se.student.dto.request.StudentCreateRequest;
+import com.se.student.dto.request.StudentUpdateRequest;
 import com.se.student.dto.response.StudentResponse;
 import jakarta.persistence.EntityManager;
 import org.springframework.stereotype.Repository;
@@ -115,4 +117,26 @@ public class StudentRepository {
         return permission != null ? student.permission.eq(permission) : null;
     }
 
+    /**
+     * @implNote JPAUpdateClause에 자체적으로 null인지 검사해주는 기능이 있는데 String이 만약 "" 값이라면 이를 걸러내지 못하는 문제점이 있다
+     * */
+    @Transactional
+    public StudentResponse update(String id, StudentUpdateRequest request) {
+        JPAUpdateClause clause = queryFactory
+                .update(student).where(studentIdEq(id))
+                .set(student.id, request.getId())
+                .set(student.name, new Name(request.getName()))
+                .set(student.password, request.getPassword())
+                .set(student.phoneNumber, new PhoneNumber(request.getPhoneNumber()))
+                .set(student.aboutMe, request.getAboutMe());
+
+        finishUpdate();
+
+        return readById(request.getId());
+    }
+
+    private void finishUpdate() {
+        em.clear();
+        em.flush();
+    }
 }
