@@ -3,7 +3,7 @@ package com.se.notice.controller;
 import com.se.common.dto.ResponseDto;
 import com.se.common.dto.ResponseMessage;
 import com.se.notice.dto.NoticeResponse;
-import com.se.notice.dto.request.NoticeRegisterRequest;
+import com.se.notice.dto.request.NoticeCreateRequest;
 import com.se.notice.dto.request.NoticeUpdateRequest;
 import com.se.notice.service.NoticeService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -21,7 +21,7 @@ public class NoticeController {
     private final NoticeService noticeService;
 
     @PostMapping
-    public ResponseEntity<?> createNotice(NoticeRegisterRequest request, HttpServletRequest httpServletRequest) {
+    public ResponseEntity<?> createNotice(NoticeCreateRequest request, HttpServletRequest httpServletRequest) {
         String id = httpServletRequest.getUserPrincipal().getName();
         NoticeResponse save = noticeService.register(request, id);
         return ResponseDto.toResponseEntity(ResponseMessage.NOTICE_CREATE_SUCCESS, save);

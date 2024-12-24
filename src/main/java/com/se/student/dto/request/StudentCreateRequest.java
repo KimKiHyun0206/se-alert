@@ -3,7 +3,7 @@ package com.se.student.dto.request;
 import lombok.Data;
 
 @Data
-public class StudentRegisterRequest {
+public class StudentCreateRequest {
     private String id;
     private String name;
 }

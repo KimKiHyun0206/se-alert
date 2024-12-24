@@ -1,16 +1,14 @@
 package com.se.notice.service;
 
 import com.se.notice.dto.NoticeResponse;
-import com.se.notice.dto.request.NoticeRegisterRequest;
+import com.se.notice.dto.request.NoticeCreateRequest;
 import com.se.notice.dto.request.NoticeUpdateRequest;
 import com.se.notice.repository.NoticeRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
-import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
@@ -18,7 +16,7 @@ public class NoticeService {
 
     private final NoticeRepository noticeRepository;
 
-    public NoticeResponse register(NoticeRegisterRequest request, String id) {
+    public NoticeResponse register(NoticeCreateRequest request, String id) {
         return noticeRepository.save(request, id);
     }
 

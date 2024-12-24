@@ -4,7 +4,7 @@ import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.se.notice.domain.Notice;
 import com.se.notice.dto.NoticeResponse;
-import com.se.notice.dto.request.NoticeRegisterRequest;
+import com.se.notice.dto.request.NoticeCreateRequest;
 import com.se.notice.dto.request.NoticeUpdateRequest;
 import jakarta.persistence.EntityManager;
 import lombok.extern.slf4j.Slf4j;
@@ -28,7 +28,7 @@ public class NoticeRepository {
 
 
     @Transactional
-    public NoticeResponse save(NoticeRegisterRequest request, String senderId) {
+    public NoticeResponse save(NoticeCreateRequest request, String senderId) {
         Notice notice = Notice.builder()
                 .title(request.getTitle())
                 .content(request.getContent())

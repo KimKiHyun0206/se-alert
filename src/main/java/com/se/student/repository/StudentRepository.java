@@ -2,12 +2,10 @@ package com.se.student.repository;
 
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import com.se.student.domain.QStudent;
 import com.se.student.domain.Student;
 import com.se.student.domain.vo.Name;
 import com.se.student.domain.vo.PhoneNumber;
-import com.se.student.dto.request.StudentRegisterRequest;
-import com.se.student.dto.request.StudentUpdateRequest;
+import com.se.student.dto.request.StudentCreateRequest;
 import com.se.student.dto.response.StudentResponse;
 import jakarta.persistence.EntityManager;
 import org.springframework.stereotype.Repository;
@@ -29,7 +27,7 @@ public class StudentRepository {
     }
 
     @Transactional
-    public StudentResponse save(StudentRegisterRequest request) {
+    public StudentResponse save(StudentCreateRequest request) {
         Student save = Student.builder()
                 .id(request.getId())
                 .name(new Name(request.getName()))

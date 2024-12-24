@@ -2,7 +2,7 @@ package com.se.student.controller;
 
 import com.se.common.dto.ResponseDto;
 import com.se.common.dto.ResponseMessage;
-import com.se.student.dto.request.StudentRegisterRequest;
+import com.se.student.dto.request.StudentCreateRequest;
 import com.se.student.repository.StudentRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -16,7 +16,7 @@ public class StudentController {
     private final StudentRepository repository;
 
     @PostMapping
-    public ResponseEntity<?> create(StudentRegisterRequest request) {
+    public ResponseEntity<?> create(StudentCreateRequest request) {
         return ResponseDto.toResponseEntity(
                 ResponseMessage.CREATE_SUCCESS_STUDENT,
                 repository.save(request)
