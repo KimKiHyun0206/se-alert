@@ -1,7 +1,7 @@
 package com.se.board.controller;
 
 import com.se.board.dto.request.BoardCreateRequest;
-import com.se.board.dto.BoardResponse;
+import com.se.board.dto.response.BoardResponse;
 import com.se.board.dto.request.BoardSearchRequest;
 import com.se.board.dto.request.BoardUpdateRequest;
 import com.se.board.service.BoardService;

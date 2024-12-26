@@ -1,4 +1,4 @@
-package com.se.board.dto;
+package com.se.board.dto.response;
 
 import com.se.board.domain.BoardCategory;
 import lombok.Builder;

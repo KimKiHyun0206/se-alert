@@ -1,6 +1,6 @@
 package com.se.board.domain;
 
-import com.se.board.dto.BoardResponse;
+import com.se.board.dto.response.BoardResponse;
 import com.se.common.BaseEntity;
 import jakarta.persistence.*;
 import lombok.Builder;
