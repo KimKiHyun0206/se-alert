@@ -20,6 +20,7 @@ import java.security.Key;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
@@ -66,6 +67,27 @@ public class TokenProvider implements InitializingBean {
                 .signWith(key, SignatureAlgorithm.HS512)
                 .setExpiration(validity)
                 .compact();
+    }
+
+    public String createAccessToken(UsernamePasswordAuthenticationToken authentication) {
+        List<GrantedAuthority> list = authentication.getAuthorities().stream().toList();
+        StringBuilder authorities = new StringBuilder();
+        for (int i = 0; i < list.size() - 1; i++) {
+            authorities.append(list.get(i).getAuthority()).append(",");
+        }
+        if(!authorities.isEmpty()) {
+            authorities.append(list.get(list.size() - 1).getAuthority());
+        }
+        long now = (new Date()).getTime();
+        Date validity = new Date(now + this.tokenValidityInMilliseconds);
+        return Jwts.builder()
+                .setSubject(authentication.getName())
+                .claim(AUTHORITIES_KEY, authorities)
+                .signWith(key, SignatureAlgorithm.HS512)
+                .setExpiration(validity)
+                .compact();
+
+
     }
 
 

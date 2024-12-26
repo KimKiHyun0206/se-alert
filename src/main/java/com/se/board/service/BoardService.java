@@ -1,8 +1,9 @@
 package com.se.board.service;
 
-import com.se.board.dto.BoardCreateRequest;
+import com.se.board.dto.request.BoardCreateRequest;
 import com.se.board.dto.BoardResponse;
-import com.se.board.dto.BoardUpdateRequest;
+import com.se.board.dto.request.BoardSearchRequest;
+import com.se.board.dto.request.BoardUpdateRequest;
 import com.se.board.repository.BoardRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -25,6 +26,10 @@ public class BoardService {
 
     public List<BoardResponse> readAll() {
         return boardRepository.readAll();
+    }
+
+    public List<BoardResponse> readAllByCondition(BoardSearchRequest request) {
+        return boardRepository.readAllByCondition(request);
     }
 
     public BoardResponse update(BoardUpdateRequest request, String writerId) {

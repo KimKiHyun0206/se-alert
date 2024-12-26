@@ -1,4 +1,4 @@
-package com.se.board.dto;
+package com.se.board.dto.request;
 
 import lombok.Data;
 

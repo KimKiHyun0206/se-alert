@@ -2,10 +2,7 @@ package com.se.board.domain;
 
 import com.se.board.dto.BoardResponse;
 import com.se.common.BaseEntity;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
 
@@ -20,11 +17,15 @@ public class Board extends BaseEntity {
     private String title;
     private String content;
 
+    @Enumerated
+    private BoardCategory boardCategory;
+
     @Builder
-    public Board(String writerId, String title, String content) {
+    public Board(String writerId, String title, String content, BoardCategory boardCategory) {
         this.writerId = writerId;
         this.title = title;
         this.content = content;
+        this.boardCategory = boardCategory;
     }
 
     public BoardResponse toResponse() {
@@ -33,6 +34,7 @@ public class Board extends BaseEntity {
                 .writerId(writerId)
                 .title(title)
                 .content(content)
+                .category(boardCategory)
                 .build();
     }
 }

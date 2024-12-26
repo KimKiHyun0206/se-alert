@@ -88,9 +88,8 @@ public class TokenResolveUtil {
     public static String resolveTokenAndGetUserId(HttpServletRequest request) {
         String bearerToken = request.getHeader(header);
 
-        if (StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer ")) {
-            String token = bearerToken.substring(7);
-            Authentication authentication = getAuthentication(token);
+        if (StringUtils.hasText(bearerToken)) {
+            Authentication authentication = getAuthentication(bearerToken);
             return authentication.getName();
         }
 

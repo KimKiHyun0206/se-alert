@@ -26,6 +26,7 @@ public enum ResponseMessage {
     BOARD_UPDATE_SUCCESS(HttpStatus.OK,"Board를 수정 하였습니다."),
     BOARD_READ_SUCCESS(HttpStatus.OK,"해당 Board 조회에 성공했습니다."),
     BOARD_READ_ALL_SUCCESS(HttpStatus.OK,"전체 Board 조회를 성공 했습니다."),
+    BOARD_READ_ALL_CONDITION_SUCCESS(HttpStatus.OK,"조건 Board 조회 성공했습니다"),
     //READ_SUCCESS_BOARD_CATEGORY(HttpStatus.OK,"Board Category 조회를 성공 했습니다."),
 
     READ_SUCCESS_BOARD_VIEW_COUNT(HttpStatus.OK,"해당 Board 조회수 조회를 성공 했습니다."),

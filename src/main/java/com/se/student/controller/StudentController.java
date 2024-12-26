@@ -17,7 +17,7 @@ public class StudentController {
     private final StudentRepository studentRepository;
 
     @PostMapping
-    public ResponseEntity<?> create(StudentCreateRequest request) {
+    public ResponseEntity<?> create(@RequestBody StudentCreateRequest request) {
         return ResponseDto.toResponseEntity(
                 ResponseMessage.CREATE_SUCCESS_STUDENT,
                 studentRepository.create(request)
@@ -65,7 +65,7 @@ public class StudentController {
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<?> update(@PathVariable(value = "id") String id, StudentUpdateRequest request) {
+    public ResponseEntity<?> update(@PathVariable(value = "id") String id, @RequestBody StudentUpdateRequest request) {
         return ResponseDto.toResponseEntity(
                 ResponseMessage.SUCCESS_UPDATE_STUDENT,
                 studentRepository.update(id, request)

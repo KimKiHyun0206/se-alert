@@ -22,7 +22,7 @@ public class NoticeController {
     private final NoticeService noticeService;
 
     @PostMapping
-    public ResponseEntity<?> createNotice(NoticeCreateRequest request, HttpServletRequest httpServletRequest) {
+    public ResponseEntity<?> createNotice(@RequestBody NoticeCreateRequest request, HttpServletRequest httpServletRequest) {
         String id = TokenResolveUtil.resolveTokenAndGetUserId(httpServletRequest);
         NoticeResponse save = noticeService.register(request, id);
         return ResponseDto.toResponseEntity(ResponseMessage.NOTICE_CREATE_SUCCESS, save);
@@ -30,7 +30,7 @@ public class NoticeController {
 
     @PatchMapping("/{id}")
     public ResponseEntity<?> updateNotice(
-            NoticeUpdateRequest request,
+            @RequestBody NoticeUpdateRequest request,
             @PathVariable(value = "id") Long id,
             HttpServletRequest httpServletRequest
     ) {

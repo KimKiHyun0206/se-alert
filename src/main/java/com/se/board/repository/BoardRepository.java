@@ -3,9 +3,11 @@ package com.se.board.repository;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.se.board.domain.Board;
-import com.se.board.dto.BoardCreateRequest;
+import com.se.board.domain.BoardCategory;
+import com.se.board.dto.request.BoardCreateRequest;
 import com.se.board.dto.BoardResponse;
-import com.se.board.dto.BoardUpdateRequest;
+import com.se.board.dto.request.BoardSearchRequest;
+import com.se.board.dto.request.BoardUpdateRequest;
 import jakarta.persistence.EntityManager;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,6 +32,7 @@ public class BoardRepository {
                 .title(request.getTitle())
                 .content(request.getContext())
                 .writerId(writerId)
+                .boardCategory(request.getCategory())
                 .build();
 
         em.persist(board);
@@ -57,6 +60,21 @@ public class BoardRepository {
                 .stream()
                 .map(Board::toResponse)
                 .toList();
+    }
+
+    @Transactional(readOnly = true)
+    public List<BoardResponse> readAllByCondition(BoardSearchRequest request) {
+        return queryFactory.selectFrom(board)
+                .where(titleLike(request.getTitle()))
+                .where(writerIdEq(request.getWriterId()))
+                .fetch()
+                .stream()
+                .map(Board::toResponse)
+                .toList();
+    }
+
+    private BooleanExpression titleLike(String title){
+        return title != null ? board.title.like("%"+title+"%") : null;
     }
 
     @Transactional
