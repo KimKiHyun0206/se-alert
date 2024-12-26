@@ -6,6 +6,7 @@ import com.se.notice.domain.Notice;
 import com.se.notice.dto.NoticeResponse;
 import com.se.notice.dto.request.NoticeCreateRequest;
 import com.se.notice.dto.request.NoticeUpdateRequest;
+import com.se.util.DateUtil;
 import jakarta.persistence.EntityManager;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
@@ -34,6 +35,7 @@ public class NoticeRepository {
                 .content(request.getContent())
                 .receiverPermission(request.getReceiverPermission())
                 .senderId(senderId)
+                .createdAt(DateUtil.getLocalDateTime())
                 .build();
 
         em.persist(notice);
@@ -70,6 +72,7 @@ public class NoticeRepository {
                 .set(notice.title, request.getTitle())
                 .set(notice.receiverPermission, request.getReceiverPermission())
                 .set(notice.content, request.getContent())
+                .set(notice.modifiedAt, DateUtil.getLocalDateTime())
                 .execute();
 
         finishUpdate();

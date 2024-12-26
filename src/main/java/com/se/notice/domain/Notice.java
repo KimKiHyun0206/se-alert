@@ -9,6 +9,8 @@ import jakarta.persistence.Id;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
+
 @Entity
 @NoArgsConstructor
 public class Notice extends BaseEntity {
@@ -22,11 +24,13 @@ public class Notice extends BaseEntity {
     private Long receiverPermission;
 
     @Builder
-    public Notice(String title, String content, String senderId, Long receiverPermission) {
+    public Notice(String title, String content, String senderId, Long receiverPermission, LocalDateTime createdAt, LocalDateTime modifiedAt) {
         this.title = title;
         this.content = content;
         this.senderId = senderId;
         this.receiverPermission = receiverPermission;
+        super.createdAt = createdAt;
+        super.modifiedAt = modifiedAt;
     }
 
     public NoticeResponse toResponse() {
