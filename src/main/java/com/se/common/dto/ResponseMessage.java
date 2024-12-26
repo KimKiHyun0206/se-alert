@@ -27,6 +27,7 @@ public enum ResponseMessage {
     BOARD_READ_SUCCESS(HttpStatus.OK,"해당 Board 조회에 성공했습니다."),
     BOARD_READ_ALL_SUCCESS(HttpStatus.OK,"전체 Board 조회를 성공 했습니다."),
     BOARD_READ_ALL_CONDITION_SUCCESS(HttpStatus.OK,"조건 Board 조회 성공했습니다"),
+    BOARD_READ_FAIL(HttpStatus.BAD_REQUEST, "Board 조회 실패했습니다, id 값을 확인해주세요"),
     //READ_SUCCESS_BOARD_CATEGORY(HttpStatus.OK,"Board Category 조회를 성공 했습니다."),
 
     READ_SUCCESS_BOARD_VIEW_COUNT(HttpStatus.OK,"해당 Board 조회수 조회를 성공 했습니다."),
