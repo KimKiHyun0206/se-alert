@@ -6,6 +6,9 @@ import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+
 @Entity
 @NoArgsConstructor
 public class Board extends BaseEntity {
@@ -21,11 +24,13 @@ public class Board extends BaseEntity {
     private BoardCategory boardCategory;
 
     @Builder
-    public Board(String writerId, String title, String content, BoardCategory boardCategory) {
+    public Board(String writerId, String title, String content, BoardCategory boardCategory, LocalDateTime createdAt, LocalDateTime modifiedAt) {
         this.writerId = writerId;
         this.title = title;
         this.content = content;
         this.boardCategory = boardCategory;
+        super.createdAt = createdAt;
+        super.modifiedAt = modifiedAt;
     }
 
     public BoardResponse toResponse() {

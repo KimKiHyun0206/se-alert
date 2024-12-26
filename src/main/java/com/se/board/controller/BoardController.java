@@ -4,6 +4,7 @@ import com.se.board.dto.request.BoardCreateRequest;
 import com.se.board.dto.response.BoardResponse;
 import com.se.board.dto.request.BoardSearchRequest;
 import com.se.board.dto.request.BoardUpdateRequest;
+import com.se.board.dto.response.BoardWithStudentResponse;
 import com.se.board.service.BoardService;
 import com.se.common.dto.ResponseDto;
 import com.se.common.dto.ResponseMessage;
@@ -28,8 +29,15 @@ public class BoardController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> readBoard(@PathVariable(value = "id") Long id) {
-        return ResponseDto.toResponseEntity(ResponseMessage.BOARD_READ_SUCCESS, boardService.read(id));
+    public ResponseEntity<?> readBoard(@PathVariable(value = "id") Long id, @RequestParam(value = "isWithStudent") boolean isWithStudent) {
+        if (isWithStudent) {
+            BoardWithStudentResponse boardWithStudentResponse = boardService.readWithStudent(id);
+            return boardWithStudentResponse != null ?
+                    ResponseDto.toResponseEntity(ResponseMessage.BOARD_READ_SUCCESS, boardWithStudentResponse) :
+                    ResponseDto.toResponseEntity(ResponseMessage.BOARD_READ_FAIL, null);
+        }
+        BoardResponse read = boardService.read(id);
+        return read != null ? ResponseDto.toResponseEntity(ResponseMessage.BOARD_READ_SUCCESS, read) : ResponseDto.toResponseEntity(ResponseMessage.BOARD_READ_FAIL, null);
     }
 
     @GetMapping

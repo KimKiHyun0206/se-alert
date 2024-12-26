@@ -6,6 +6,8 @@ import com.se.board.dto.request.BoardSearchRequest;
 import com.se.board.dto.request.BoardUpdateRequest;
 import com.se.board.dto.response.BoardWithStudentResponse;
 import com.se.board.repository.BoardRepository;
+import com.se.student.dto.response.StudentResponse;
+import com.se.student.repository.StudentRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -16,13 +18,27 @@ import java.util.List;
 public class BoardService {
 
     private final BoardRepository boardRepository;
+    private final StudentRepository studentRepository;
 
     public BoardResponse create(BoardCreateRequest request, String writerId) {
         return boardRepository.create(request, writerId);
     }
 
-    public BoardWithStudentResponse read(Long id) {
+    public BoardResponse read(Long id) {
         return boardRepository.readById(id);
+    }
+
+    public BoardWithStudentResponse readWithStudent(Long id) {
+        BoardResponse boardResponse = boardRepository.readById(id);
+        StudentResponse studentResponse = studentRepository.readById(boardResponse.getWriterId());
+        return BoardWithStudentResponse
+                .builder()
+                .id(boardResponse.getId())
+                .title(boardResponse.getTitle())
+                .category(boardResponse.getCategory())
+                .content(boardResponse.getContent())
+                .studentName(studentResponse.getName())
+                .build();
     }
 
     public List<BoardResponse> readAll() {

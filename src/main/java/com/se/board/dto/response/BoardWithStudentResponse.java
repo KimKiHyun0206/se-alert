@@ -8,15 +8,15 @@ import lombok.Data;
 @Data
 public class BoardWithStudentResponse {
     private Long id;
-    private Student student;
+    private String studentName;
     private String title;
     private String content;
     private BoardCategory category;
 
     @Builder
-    public BoardWithStudentResponse(Long id, Student student, String title, String content, BoardCategory category) {
+    public BoardWithStudentResponse(Long id, String studentName, String title, String content, BoardCategory category) {
         this.id = id;
-        this.student = student;
+        this.studentName = studentName;
         this.title = title;
         this.content = content;
         this.category = category;

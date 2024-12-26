@@ -9,6 +9,7 @@ import com.se.board.dto.request.BoardSearchRequest;
 import com.se.board.dto.request.BoardUpdateRequest;
 import com.se.board.dto.response.BoardWithStudentResponse;
 import com.se.student.domain.Student;
+import com.se.util.DateUtil;
 import jakarta.persistence.EntityManager;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -35,6 +36,7 @@ public class BoardRepository {
                 .content(request.getContext())
                 .writerId(writerId)
                 .boardCategory(request.getCategory())
+                .createdAt(DateUtil.getLocalDateTime())
                 .build();
 
         em.persist(board);
@@ -42,22 +44,12 @@ public class BoardRepository {
     }
 
     @Transactional(readOnly = true)
-    public BoardWithStudentResponse readById(Long id) {
-        BoardResponse response = queryFactory
+    public BoardResponse readById(Long id) {
+        return queryFactory
                 .selectFrom(board)
                 .where(boardIdEq(id))
                 .fetchOne()
                 .toResponse();
-
-        Student student1 = readNameByWriterId(response.getWriterId());
-
-        return BoardWithStudentResponse.builder()
-                .student(student1)
-                .id(response.getId())
-                .category(response.getCategory())
-                .content(response.getContent())
-                .title(response.getTitle())
-                .build();
     }
 
     private BooleanExpression boardIdEq(Long id) {
@@ -94,7 +86,9 @@ public class BoardRepository {
         queryFactory.update(board)
                 .where(boardIdEq(request.getId()), writerIdEq(writerId))
                 .set(board.title, request.getTitle())
-                .set(board.content, request.getContext()).execute();
+                .set(board.content, request.getContext())
+                .set(board.modifiedAt, DateUtil.getLocalDateTime())
+                .execute();
 
         return queryFactory
                 .selectFrom(board)
@@ -117,6 +111,19 @@ public class BoardRepository {
 
     @Transactional(readOnly = true)
     protected Student readNameByWriterId(String writerId) {
-        return queryFactory.selectFrom(student).where(student.id.eq(writerId)).fetchOne();
+        return queryFactory
+                .selectFrom(student)
+                .where(student.id.eq(writerId))
+                .fetchOne();
+    }
+
+    @Transactional(readOnly = true)
+    public List<BoardResponse> readByWriterId(String writerId) {
+        return queryFactory.selectFrom(board)
+                .where(writerIdEq(writerId))
+                .fetch()
+                .stream()
+                .map(Board::toResponse)
+                .toList();
     }
 }
