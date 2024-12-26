@@ -7,10 +7,10 @@ import com.se.board.dto.request.BoardUpdateRequest;
 import com.se.board.service.BoardService;
 import com.se.common.dto.ResponseDto;
 import com.se.common.dto.ResponseMessage;
+import com.se.error.exception.board.BoardUpdateFailException;
 import com.se.util.TokenResolveUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
-import org.apache.coyote.Response;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 

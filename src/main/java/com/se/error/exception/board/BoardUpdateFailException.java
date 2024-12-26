@@ -1,4 +1,4 @@
-package com.se.board.controller;
+package com.se.error.exception.board;
 
 import com.se.error.BusinessException;
 import com.se.error.dto.ErrorMessage;
