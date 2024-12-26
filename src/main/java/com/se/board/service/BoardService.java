@@ -31,7 +31,7 @@ public class BoardService {
         return boardRepository.update(request, writerId);
     }
 
-    public long delete(Long id, String writerId) {
-        return boardRepository.delete(id, writerId);
+    public boolean delete(Long id, String writerId) {
+        return boardRepository.delete(id, writerId) != 0;
     }
 }

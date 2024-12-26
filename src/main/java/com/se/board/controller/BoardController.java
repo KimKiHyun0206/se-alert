@@ -48,9 +48,8 @@ public class BoardController {
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteBoard(HttpServletRequest httpServletRequest, @PathVariable(value = "id") Long id) {
         String writerId = TokenResolveUtil.resolveTokenAndGetUserId(httpServletRequest);
-        long delete = boardService.delete(id, writerId);
-        if(delete > 0){
-            return ResponseDto.toResponseEntity(ResponseMessage.BOARD_DELETE_SUCCESS, delete);
+        if(boardService.delete(id, writerId)){
+            return ResponseDto.toResponseEntity(ResponseMessage.BOARD_DELETE_SUCCESS, null);
         }
         return ResponseDto.toResponseEntity(ResponseMessage.BOARD_DELETE_FAIL,null);
     }
