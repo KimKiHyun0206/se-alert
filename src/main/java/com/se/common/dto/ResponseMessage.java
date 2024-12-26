@@ -22,14 +22,15 @@ public enum ResponseMessage {
 
 
     //BOARD
-    CREATE_SUCCESS_BOARD(HttpStatus.CREATED,"Board를 생성 했습니다."),
-    UPDATE_SUCCESS_BOARD(HttpStatus.OK,"Board를 수정 하였습니다."),
-    READ_SUCCESS_BOARD(HttpStatus.OK,"해당 Board 조회에 성공했습니다."),
-    READ_SUCCESS_ALL_BOARD(HttpStatus.OK,"전체 Board 조회를 성공 했습니다."),
+    BOARD_CREATE_SUCCESS(HttpStatus.CREATED,"Board를 생성 했습니다."),
+    BOARD_UPDATE_SUCCESS(HttpStatus.OK,"Board를 수정 하였습니다."),
+    BOARD_READ_SUCCESS(HttpStatus.OK,"해당 Board 조회에 성공했습니다."),
+    BOARD_READ_ALL_SUCCESS(HttpStatus.OK,"전체 Board 조회를 성공 했습니다."),
     //READ_SUCCESS_BOARD_CATEGORY(HttpStatus.OK,"Board Category 조회를 성공 했습니다."),
 
     READ_SUCCESS_BOARD_VIEW_COUNT(HttpStatus.OK,"해당 Board 조회수 조회를 성공 했습니다."),
-    DELETE_SUCCESS_BOARD(HttpStatus.OK,"해당 Board 삭제 성공 했습니다."),
+    BOARD_DELETE_SUCCESS(HttpStatus.OK,"해당 Board 삭제 성공 했습니다."),
+    BOARD_DELETE_FAIL(HttpStatus.BAD_REQUEST,"Board 삭제에 실패했습니다"),
     //UPLOAD_IMAGE_SUCCESS(HttpStatus.CREATED, "이미지 업로드 성공"),
 
 

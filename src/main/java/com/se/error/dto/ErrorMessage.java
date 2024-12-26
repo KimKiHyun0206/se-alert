@@ -27,6 +27,8 @@ public enum ErrorMessage {
     //Redis
     REDIS_ERROR(HttpStatus.INTERNAL_SERVER_ERROR,"Redis Server에서 오류가 발생했습니다"),
 
+    //BOARD
+    BOARD_UPDATE_FAIL(HttpStatus.BAD_REQUEST, "Board 수정을 실패했습니다"),
 
 
     ;
