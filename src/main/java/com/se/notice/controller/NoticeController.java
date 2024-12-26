@@ -6,6 +6,7 @@ import com.se.notice.dto.NoticeResponse;
 import com.se.notice.dto.request.NoticeCreateRequest;
 import com.se.notice.dto.request.NoticeUpdateRequest;
 import com.se.notice.service.NoticeService;
+import com.se.util.TokenResolveUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -22,7 +23,7 @@ public class NoticeController {
 
     @PostMapping
     public ResponseEntity<?> createNotice(NoticeCreateRequest request, HttpServletRequest httpServletRequest) {
-        String id = httpServletRequest.getUserPrincipal().getName();
+        String id = TokenResolveUtil.resolveTokenAndGetUserId(httpServletRequest);
         NoticeResponse save = noticeService.register(request, id);
         return ResponseDto.toResponseEntity(ResponseMessage.NOTICE_CREATE_SUCCESS, save);
     }
@@ -33,7 +34,7 @@ public class NoticeController {
             @PathVariable(value = "id") Long id,
             HttpServletRequest httpServletRequest
     ) {
-        String writerId = httpServletRequest.getUserPrincipal().getName();
+        String writerId = TokenResolveUtil.resolveTokenAndGetUserId(httpServletRequest);
         NoticeResponse update = noticeService.update(request, id, writerId);
         return update != null ?
                 ResponseDto.toResponseEntity(ResponseMessage.NOTICE_UPDATE_SUCCESS, update) :
@@ -54,7 +55,7 @@ public class NoticeController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> delete(@PathVariable(value = "id") Long noticeId, HttpServletRequest httpServletRequest) {
-        String id = httpServletRequest.getUserPrincipal().getName();
+        String id = TokenResolveUtil.resolveTokenAndGetUserId(httpServletRequest);
         noticeService.delete(noticeId, id);
         return ResponseDto.toResponseEntity(ResponseMessage.NOTICE_DELETE_SUCCESS, null);
     }

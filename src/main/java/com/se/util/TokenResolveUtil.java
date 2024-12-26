@@ -25,8 +25,6 @@ import java.util.stream.Collectors;
 @Slf4j
 @Component
 public class TokenResolveUtil {
-    private final TokenProvider tokenProvider;
-
     private static String header;
 
     private static Key key;
@@ -36,8 +34,7 @@ public class TokenResolveUtil {
 
     private static final String AUTHORITIES_KEY = "auth";
 
-    public TokenResolveUtil(TokenProvider tokenProvider,@Value("${jwt.header}") String header, @Value("${jwt.secret}") String secret) {
-        this.tokenProvider = tokenProvider;
+    public TokenResolveUtil(@Value("${jwt.header}") String header, @Value("${jwt.secret}") String secret) {
         TokenResolveUtil.header = header;
         this.secret = secret;
         byte[] keyBytes = Decoders.BASE64.decode(secret);
@@ -83,6 +80,18 @@ public class TokenResolveUtil {
 
         if (StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer ")) {
             return bearerToken.substring(7);
+        }
+
+        return null;
+    }
+
+    public static String resolveTokenAndGetUserId(HttpServletRequest request) {
+        String bearerToken = request.getHeader(header);
+
+        if (StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer ")) {
+            String token = bearerToken.substring(7);
+            Authentication authentication = getAuthentication(token);
+            return authentication.getName();
         }
 
         return null;
