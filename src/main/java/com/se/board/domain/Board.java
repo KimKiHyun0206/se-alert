@@ -46,10 +46,10 @@ public class Board extends BaseEntity {
     public BoardResponse toResponse() {
         return BoardResponse.builder()
                 .id(id)
-                .student(student)
                 .title(title)
                 .content(content)
                 .category(boardCategory)
+                .student(student)
                 .comments(comments)
                 .build();
     }

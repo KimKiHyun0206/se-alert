@@ -3,12 +3,10 @@ package com.se.comment.repository;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.se.board.domain.Board;
-import com.se.board.repository.BoardRepository;
+import com.se.board.repository.FullBoardRepository;
 import com.se.comment.domain.Comment;
 import com.se.comment.dto.request.CommentCreateRequest;
-import com.se.comment.dto.response.CommentResponse;
 import com.se.student.domain.Student;
-import com.se.student.dto.response.StudentResponse;
 import com.se.student.repository.StudentRepository;
 import com.se.util.DateUtil;
 import jakarta.persistence.EntityManager;
@@ -24,19 +22,19 @@ import static com.se.student.domain.QStudent.student;
 public class CommentRepository {
     private final EntityManager em;
     private final JPAQueryFactory queryFactory;
-    private final BoardRepository boardRepository;
+    private final FullBoardRepository fullBoardRepository;
     private final StudentRepository studentRepository;
 
-    public CommentRepository(EntityManager em,BoardRepository boardRepository, StudentRepository studentRepository) {
+    public CommentRepository(EntityManager em, FullBoardRepository fullBoardRepository, StudentRepository studentRepository) {
         this.em = em;
         this.queryFactory = new JPAQueryFactory(em);
-        this.boardRepository = boardRepository;
+        this.fullBoardRepository = fullBoardRepository;
         this.studentRepository = studentRepository;
     }
 
     @Transactional
     public Comment createComment(CommentCreateRequest request, String writerId) {
-        Board resultBoard = boardRepository.readById(request.getBoardId());
+        Board resultBoard = fullBoardRepository.readById(request.getBoardId());
         Student resultStudent = studentRepository.readById(writerId);
         Comment writedComment = Comment.builder()
                 .context(request.getComment())

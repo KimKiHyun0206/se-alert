@@ -4,10 +4,9 @@ import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.se.board.domain.Board;
 import com.se.board.dto.request.BoardCreateRequest;
-import com.se.board.dto.response.BoardResponse;
 import com.se.board.dto.request.BoardSearchRequest;
 import com.se.board.dto.request.BoardUpdateRequest;
-import com.se.student.domain.Student;
+import com.se.student.repository.StudentRepository;
 import com.se.util.DateUtil;
 import jakarta.persistence.EntityManager;
 import org.springframework.stereotype.Repository;
@@ -16,29 +15,25 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 import static com.se.board.domain.QBoard.board;
-import static com.se.student.domain.QStudent.student;
 
 @Repository
-public class BoardRepository {
+public class FullBoardRepository {
     private final EntityManager em;
     private final JPAQueryFactory queryFactory;
+    private final StudentRepository studentRepository;
 
-    public BoardRepository(EntityManager em) {
+    public FullBoardRepository(EntityManager em, StudentRepository studentRepository) {
         this.em = em;
         this.queryFactory = new JPAQueryFactory(em);
+        this.studentRepository = studentRepository;
     }
 
     @Transactional
     public Board create(BoardCreateRequest request, String writerId) {
-        Student studentResult = queryFactory
-                .selectFrom(student)
-                .where(student.id.eq(writerId))
-                .fetchOne();
-
         Board board = Board.builder()
                 .title(request.getTitle())
                 .content(request.getContext())
-                .student(studentResult)
+                .student(studentRepository.readById(writerId))
                 .boardCategory(request.getCategory())
                 .createdAt(DateUtil.getLocalDateTime())
                 .build();

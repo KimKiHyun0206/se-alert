@@ -5,9 +5,8 @@ import com.se.board.dto.request.BoardCreateRequest;
 import com.se.board.dto.response.BoardResponse;
 import com.se.board.dto.request.BoardSearchRequest;
 import com.se.board.dto.request.BoardUpdateRequest;
-import com.se.board.repository.BoardRepository;
+import com.se.board.repository.FullBoardRepository;
 import com.se.comment.domain.Comment;
-import com.se.student.repository.StudentRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -17,14 +16,14 @@ import java.util.List;
 @RequiredArgsConstructor
 public class BoardService {
 
-    private final BoardRepository boardRepository;
+    private final FullBoardRepository fullBoardRepository;
 
     public BoardResponse create(BoardCreateRequest request, String writerId) {
-        return boardRepository.create(request, writerId).toResponse();
+        return fullBoardRepository.create(request, writerId).toResponse();
     }
 
     public BoardResponse read(Long id) {
-        BoardResponse boardResponse = boardRepository.readById(id).toResponse();
+        BoardResponse boardResponse = fullBoardRepository.readById(id).toResponse();
         for (Comment comment : boardResponse.getComments()) {
             comment.getCreatedAt();
         }
@@ -32,22 +31,22 @@ public class BoardService {
     }
 
     public BoardResponse readWithStudent(Long id) {
-        return boardRepository.readById(id).toResponse();
+        return fullBoardRepository.readById(id).toResponse();
     }
 
     public List<BoardResponse> readAll() {
-        return boardRepository.readAll().stream().map(Board::toResponse).toList();
+        return fullBoardRepository.readAll().stream().map(Board::toResponse).toList();
     }
 
     public List<BoardResponse> readAllByCondition(BoardSearchRequest request) {
-        return boardRepository.readAllByCondition(request).stream().map(Board::toResponse).toList();
+        return fullBoardRepository.readAllByCondition(request).stream().map(Board::toResponse).toList();
     }
 
     public BoardResponse update(BoardUpdateRequest request, String writerId) {
-        return boardRepository.update(request, writerId).toResponse();
+        return fullBoardRepository.update(request, writerId).toResponse();
     }
 
     public boolean delete(Long id, String writerId) {
-        return boardRepository.delete(id, writerId) != 0;
+        return fullBoardRepository.delete(id, writerId) != 0;
     }
 }
