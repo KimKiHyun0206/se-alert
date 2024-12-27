@@ -1,6 +1,6 @@
 package com.se.board.domain;
 
-import com.se.board.dto.response.BoardResponse;
+import com.se.board.dto.response.FullBoardResponse;
 import com.se.comment.domain.Comment;
 import com.se.common.BaseEntity;
 import com.se.student.domain.Student;
@@ -43,8 +43,8 @@ public class Board extends BaseEntity {
         super.modifiedAt = modifiedAt;
     }
 
-    public BoardResponse toResponse() {
-        return BoardResponse.builder()
+    public FullBoardResponse toResponse() {
+        return FullBoardResponse.builder()
                 .id(id)
                 .title(title)
                 .content(content)

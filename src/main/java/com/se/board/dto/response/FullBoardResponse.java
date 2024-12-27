@@ -9,7 +9,7 @@ import lombok.Data;
 import java.util.List;
 
 @Data
-public class BoardResponse {
+public class FullBoardResponse {
     private Long id;
     private Student student;
     private String title;
@@ -18,7 +18,7 @@ public class BoardResponse {
     private List<Comment> comments;
 
     @Builder
-    public BoardResponse(Long id, Student student, String title, String content, BoardCategory category, List<Comment> comments) {
+    public FullBoardResponse(Long id, Student student, String title, String content, BoardCategory category, List<Comment> comments) {
         this.id = id;
         this.student = student;
         this.title = title;

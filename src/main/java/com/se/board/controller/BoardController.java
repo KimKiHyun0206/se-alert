@@ -1,7 +1,7 @@
 package com.se.board.controller;
 
 import com.se.board.dto.request.BoardCreateRequest;
-import com.se.board.dto.response.BoardResponse;
+import com.se.board.dto.response.FullBoardResponse;
 import com.se.board.dto.request.BoardSearchRequest;
 import com.se.board.dto.request.BoardUpdateRequest;
 import com.se.board.service.BoardService;
@@ -33,12 +33,12 @@ public class BoardController {
     @GetMapping("/{id}")
     public ResponseEntity<?> readBoard(@PathVariable(value = "id") Long id, @RequestParam(value = "isWithStudent") boolean isWithStudent) {
         if (isWithStudent) {
-            BoardResponse boardResponse = boardService.readWithStudent(id);
-            return boardResponse != null ?
-                    ResponseDto.toResponseEntity(ResponseMessage.BOARD_READ_SUCCESS, boardResponse) :
+            FullBoardResponse fullBoardResponse = boardService.readWithStudent(id);
+            return fullBoardResponse != null ?
+                    ResponseDto.toResponseEntity(ResponseMessage.BOARD_READ_SUCCESS, fullBoardResponse) :
                     ResponseDto.toResponseEntity(ResponseMessage.BOARD_READ_FAIL, null);
         }
-        BoardResponse read = boardService.read(id);
+        FullBoardResponse read = boardService.read(id);
         return read != null ? ResponseDto.toResponseEntity(ResponseMessage.BOARD_READ_SUCCESS, read) : ResponseDto.toResponseEntity(ResponseMessage.BOARD_READ_FAIL, null);
     }
 
@@ -55,7 +55,7 @@ public class BoardController {
     @PatchMapping
     public ResponseEntity<?> updateBoard(@RequestBody BoardUpdateRequest request, HttpServletRequest httpServletRequest) {
         String id = TokenResolveUtil.resolveTokenAndGetUserId(httpServletRequest);
-        BoardResponse update = boardService.update(request, id);
+        FullBoardResponse update = boardService.update(request, id);
         if (update == null) {
             throw new BoardUpdateFailException();
         }

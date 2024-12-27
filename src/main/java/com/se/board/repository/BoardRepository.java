@@ -17,12 +17,12 @@ import java.util.List;
 import static com.se.board.domain.QBoard.board;
 
 @Repository
-public class FullBoardRepository {
+public class BoardRepository {
     private final EntityManager em;
     private final JPAQueryFactory queryFactory;
     private final StudentRepository studentRepository;
 
-    public FullBoardRepository(EntityManager em, StudentRepository studentRepository) {
+    public BoardRepository(EntityManager em, StudentRepository studentRepository) {
         this.em = em;
         this.queryFactory = new JPAQueryFactory(em);
         this.studentRepository = studentRepository;
