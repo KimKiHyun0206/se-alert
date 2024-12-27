@@ -42,6 +42,7 @@ springdoc:
   default-produces-media-type: application/json # response media type 의 기본 값
   paths-to-match: # 해당 패턴에 매칭되는 controller만 swagger-ui에 노출한다.
     - /api/v1/**
+    - /api/v2/**
 
 
 jwt:

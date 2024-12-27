@@ -1,5 +1,7 @@
 package com.se.board.domain;
 
+import com.se.board.dto.response.BoardListResponse;
+import com.se.board.dto.response.DefaultBoardResponse;
 import com.se.board.dto.response.FullBoardResponse;
 import com.se.comment.domain.Comment;
 import com.se.common.BaseEntity;
@@ -51,6 +53,24 @@ public class Board extends BaseEntity {
                 .category(boardCategory)
                 .student(student)
                 .comments(comments)
+                .build();
+    }
+
+    public DefaultBoardResponse toDefaultResponse(){
+        return DefaultBoardResponse
+                .builder()
+                .title(title)
+                .content(content)
+                .userName(student.getName().getName())
+                .comments(comments)
+                .build();
+    }
+
+    public BoardListResponse toListResponse(){
+        return BoardListResponse.builder()
+                .title(title)
+                .content(content)
+                .boardCategory(boardCategory)
                 .build();
     }
 
