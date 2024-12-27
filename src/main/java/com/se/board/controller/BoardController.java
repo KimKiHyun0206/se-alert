@@ -4,7 +4,6 @@ import com.se.board.dto.request.BoardCreateRequest;
 import com.se.board.dto.response.BoardResponse;
 import com.se.board.dto.request.BoardSearchRequest;
 import com.se.board.dto.request.BoardUpdateRequest;
-import com.se.board.dto.response.BoardWithStudentResponse;
 import com.se.board.service.BoardService;
 import com.se.common.dto.ResponseDto;
 import com.se.common.dto.ResponseMessage;
@@ -12,9 +11,11 @@ import com.se.error.exception.board.BoardUpdateFailException;
 import com.se.util.TokenResolveUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+@Slf4j
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/board")
@@ -25,15 +26,16 @@ public class BoardController {
     @PostMapping
     public ResponseEntity<?> createBoard(@RequestBody BoardCreateRequest request, HttpServletRequest httpServletRequest) {
         String id = TokenResolveUtil.resolveTokenAndGetUserId(httpServletRequest);
+        log.info(id);
         return ResponseDto.toResponseEntity(ResponseMessage.BOARD_CREATE_SUCCESS, boardService.create(request, id));
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<?> readBoard(@PathVariable(value = "id") Long id, @RequestParam(value = "isWithStudent") boolean isWithStudent) {
         if (isWithStudent) {
-            BoardWithStudentResponse boardWithStudentResponse = boardService.readWithStudent(id);
-            return boardWithStudentResponse != null ?
-                    ResponseDto.toResponseEntity(ResponseMessage.BOARD_READ_SUCCESS, boardWithStudentResponse) :
+            BoardResponse boardResponse = boardService.readWithStudent(id);
+            return boardResponse != null ?
+                    ResponseDto.toResponseEntity(ResponseMessage.BOARD_READ_SUCCESS, boardResponse) :
                     ResponseDto.toResponseEntity(ResponseMessage.BOARD_READ_FAIL, null);
         }
         BoardResponse read = boardService.read(id);

@@ -36,6 +36,9 @@ public enum ResponseMessage {
     //UPLOAD_IMAGE_SUCCESS(HttpStatus.CREATED, "이미지 업로드 성공"),
 
 
+    COMMENT_CREATE_SUCCESS(HttpStatus.OK,"댓글 생성에 성공했습니다"),
+
+
     //NOTICE
     NOTICE_CREATE_SUCCESS(HttpStatus.OK,"공지 생성 성공했습니다"),
     NOTICE_UPDATE_SUCCESS(HttpStatus.OK, "공지 수정 성공했습니다"),

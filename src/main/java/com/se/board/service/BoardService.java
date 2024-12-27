@@ -1,12 +1,12 @@
 package com.se.board.service;
 
+import com.se.board.domain.Board;
 import com.se.board.dto.request.BoardCreateRequest;
 import com.se.board.dto.response.BoardResponse;
 import com.se.board.dto.request.BoardSearchRequest;
 import com.se.board.dto.request.BoardUpdateRequest;
-import com.se.board.dto.response.BoardWithStudentResponse;
 import com.se.board.repository.BoardRepository;
-import com.se.student.dto.response.StudentResponse;
+import com.se.comment.domain.Comment;
 import com.se.student.repository.StudentRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -18,39 +18,33 @@ import java.util.List;
 public class BoardService {
 
     private final BoardRepository boardRepository;
-    private final StudentRepository studentRepository;
 
     public BoardResponse create(BoardCreateRequest request, String writerId) {
-        return boardRepository.create(request, writerId);
+        return boardRepository.create(request, writerId).toResponse();
     }
 
     public BoardResponse read(Long id) {
-        return boardRepository.readById(id);
+        BoardResponse boardResponse = boardRepository.readById(id).toResponse();
+        for (Comment comment : boardResponse.getComments()) {
+            comment.getCreatedAt();
+        }
+        return boardResponse;
     }
 
-    public BoardWithStudentResponse readWithStudent(Long id) {
-        BoardResponse boardResponse = boardRepository.readById(id);
-        StudentResponse studentResponse = studentRepository.readById(boardResponse.getWriterId());
-        return BoardWithStudentResponse
-                .builder()
-                .id(boardResponse.getId())
-                .title(boardResponse.getTitle())
-                .category(boardResponse.getCategory())
-                .content(boardResponse.getContent())
-                .studentName(studentResponse.getName())
-                .build();
+    public BoardResponse readWithStudent(Long id) {
+        return boardRepository.readById(id).toResponse();
     }
 
     public List<BoardResponse> readAll() {
-        return boardRepository.readAll();
+        return boardRepository.readAll().stream().map(Board::toResponse).toList();
     }
 
     public List<BoardResponse> readAllByCondition(BoardSearchRequest request) {
-        return boardRepository.readAllByCondition(request);
+        return boardRepository.readAllByCondition(request).stream().map(Board::toResponse).toList();
     }
 
     public BoardResponse update(BoardUpdateRequest request, String writerId) {
-        return boardRepository.update(request, writerId);
+        return boardRepository.update(request, writerId).toResponse();
     }
 
     public boolean delete(Long id, String writerId) {

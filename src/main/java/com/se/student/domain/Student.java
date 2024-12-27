@@ -1,5 +1,7 @@
 package com.se.student.domain;
 
+import com.se.board.domain.Board;
+import com.se.comment.domain.Comment;
 import com.se.common.BaseEntity;
 import com.se.student.domain.converter.PasswordEncodeConverter;
 import com.se.student.domain.vo.Name;
@@ -11,6 +13,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.DynamicUpdate;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Getter
 @NoArgsConstructor
@@ -18,6 +23,7 @@ import org.hibernate.annotations.DynamicUpdate;
 public class Student extends BaseEntity {
 
     @Id
+    @Column(name = "student_id")
     private String id;
     @Convert(converter = PasswordEncodeConverter.class)
     private String password;
@@ -25,6 +31,12 @@ public class Student extends BaseEntity {
     private PhoneNumber phoneNumber;
     private String aboutMe;
     private Long permission;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "student")
+    private List<Board> boards = new ArrayList<>();
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "student")
+    private List<Comment> comments = new ArrayList<>();
 
     @Builder
     public Student(String id, String password, Name name, PhoneNumber phoneNumber, String aboutMe, Long permission) {

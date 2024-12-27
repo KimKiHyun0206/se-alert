@@ -29,7 +29,7 @@ public class StudentRepository {
     }
 
     @Transactional
-    public StudentResponse create(StudentCreateRequest request) {
+    public Student create(StudentCreateRequest request) {
         Student save = Student.builder()
                 .id(request.getId())
                 .name(new Name(request.getName()))
@@ -41,19 +41,18 @@ public class StudentRepository {
 
         em.persist(save);
 
-        return save.toResponse();
+        return save;
     }
 
     /**
      * @param id 조회할 학번
      */
     @Transactional(readOnly = true)
-    public StudentResponse readById(String id) {
+    public Student readById(String id) {
         return queryFactory
                 .selectFrom(student)
                 .where(studentIdEq(id))
-                .fetchOne()
-                .toResponse();
+                .fetchOne();
     }
 
     private BooleanExpression studentIdEq(String id) {
@@ -62,12 +61,10 @@ public class StudentRepository {
 
 
     @Transactional(readOnly = true)
-    public List<StudentResponse> readAll() {
+    public List<Student> readAll() {
         return queryFactory
                 .selectFrom(student)
-                .stream()
-                .map(Student::toResponse)
-                .toList();
+                .fetch();
     }
 
     /**
@@ -75,42 +72,33 @@ public class StudentRepository {
      * @implSpec like 문을 사용
      */
     @Transactional(readOnly = true)
-    public List<StudentResponse> readByYear(Long year) {
+    public List<Student> readByYear(Long year) {
         return queryFactory
                 .selectFrom(student)
                 .where(student.id.like("__" + year + "%"))
-                .fetch()
-                .stream()
-                .map(Student::toResponse)
-                .toList();
+                .fetch();
     }
 
     /**
      * @param name 조회하는데 필요한 이름
      */
     @Transactional(readOnly = true)
-    public List<StudentResponse> readByName(String name) {
+    public List<Student> readByName(String name) {
         return queryFactory
                 .selectFrom(student)
                 .where(studentNameEq(name))
-                .fetch()
-                .stream()
-                .map(Student::toResponse)
-                .toList();
+                .fetch();
     }
 
     private BooleanExpression studentNameEq(String name) {
         return name != null ? student.name.eq(new Name(name)) : null;
     }
 
-    public List<StudentResponse> readByPermission(Long permission) {
+    public List<Student> readByPermission(Long permission) {
         return queryFactory
                 .selectFrom(student)
                 .where(studentPermissionEq(permission))
-                .fetch()
-                .stream()
-                .map(Student::toResponse)
-                .toList();
+                .fetch();
     }
 
     private BooleanExpression studentPermissionEq(Long permission) {
@@ -121,7 +109,7 @@ public class StudentRepository {
      * @implNote JPAUpdateClause에 자체적으로 null인지 검사해주는 기능이 있는데 String이 만약 "" 값이라면 이를 걸러내지 못하는 문제점이 있다
      * */
     @Transactional
-    public StudentResponse update(String id, StudentUpdateRequest request) {
+    public Student update(String id, StudentUpdateRequest request) {
         JPAUpdateClause clause = queryFactory
                 .update(student).where(studentIdEq(id))
                 .set(student.id, request.getId())

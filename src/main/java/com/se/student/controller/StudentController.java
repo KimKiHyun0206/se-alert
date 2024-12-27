@@ -4,7 +4,7 @@ import com.se.common.dto.ResponseDto;
 import com.se.common.dto.ResponseMessage;
 import com.se.student.dto.request.StudentCreateRequest;
 import com.se.student.dto.request.StudentUpdateRequest;
-import com.se.student.repository.StudentRepository;
+import com.se.student.service.StudentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,13 +14,13 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class StudentController {
 
-    private final StudentRepository studentRepository;
+    private final StudentService studentService;
 
     @PostMapping
     public ResponseEntity<?> create(@RequestBody StudentCreateRequest request) {
         return ResponseDto.toResponseEntity(
                 ResponseMessage.CREATE_SUCCESS_STUDENT,
-                studentRepository.create(request)
+                studentService.create(request)
         );
     }
 
@@ -28,7 +28,7 @@ public class StudentController {
     public ResponseEntity<?> read(@PathVariable(value = "id") String id) {
         return ResponseDto.toResponseEntity(
                 ResponseMessage.SUCCESS_LOAD_STUDENT_INFORMATION,
-                studentRepository.readById(id)
+                studentService.readById(id)
         );
     }
 
@@ -36,7 +36,7 @@ public class StudentController {
     public ResponseEntity<?> readAll() {
         return ResponseDto.toResponseEntity(
                 ResponseMessage.SUCCESS_SEARCH_ALL_STUDENT,
-                studentRepository.readAll()
+                studentService.readAll()
         );
     }
 
@@ -44,7 +44,7 @@ public class StudentController {
     public ResponseEntity<?> readByYear(@PathVariable(value = "year") Long year) {
         return ResponseDto.toResponseEntity(
                 ResponseMessage.SUCCESS_SEARCH_STUDENT_NUMBER,
-                studentRepository.readByYear(year)
+                studentService.readByYear(year)
         );
     }
 
@@ -52,7 +52,7 @@ public class StudentController {
     public ResponseEntity<?> readByName(@PathVariable(value = "name") String name) {
         return ResponseDto.toResponseEntity(
                 ResponseMessage.SUCCESS_SEARCH_STUDENT_NAME,
-                studentRepository.readByName(name)
+                studentService.readByName(name)
         );
     }
 
@@ -60,7 +60,7 @@ public class StudentController {
     public ResponseEntity<?> readByPermission(@PathVariable(value = "permission") Long permission) {
         return ResponseDto.toResponseEntity(
                 ResponseMessage.SUCCESS_SEARCH_STUDENT_PERMISSION,
-                studentRepository.readByPermission(permission)
+                studentService.readByPermission(permission)
         );
     }
 
@@ -68,7 +68,7 @@ public class StudentController {
     public ResponseEntity<?> update(@PathVariable(value = "id") String id, @RequestBody StudentUpdateRequest request) {
         return ResponseDto.toResponseEntity(
                 ResponseMessage.SUCCESS_UPDATE_STUDENT,
-                studentRepository.update(id, request)
+                studentService.update(id, request)
         );
     }
 }

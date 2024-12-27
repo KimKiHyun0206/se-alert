@@ -11,8 +11,6 @@ import java.util.regex.Pattern;
 @Embeddable
 @NoArgsConstructor
 public class PhoneNumber {
-
-    private final String regex = "^\\d{3}-\\d{3,4}-\\d{4}$";
     private String phoneNumber;
 
     public PhoneNumber(String phoneNumber) {
@@ -20,7 +18,7 @@ public class PhoneNumber {
     }
 
     private void validatePhoneNumber(String phoneNumber) {
-        if(!Pattern.matches(regex, phoneNumber)) {
+        if (!Pattern.matches("^\\d{3}-\\d{3,4}-\\d{4}$", phoneNumber)) {
             throw new InvalidPhoneNumberRegex(phoneNumber);
         }
         this.phoneNumber = phoneNumber;

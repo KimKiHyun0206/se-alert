@@ -7,7 +7,6 @@ import com.se.board.dto.request.BoardCreateRequest;
 import com.se.board.dto.response.BoardResponse;
 import com.se.board.dto.request.BoardSearchRequest;
 import com.se.board.dto.request.BoardUpdateRequest;
-import com.se.board.dto.response.BoardWithStudentResponse;
 import com.se.student.domain.Student;
 import com.se.util.DateUtil;
 import jakarta.persistence.EntityManager;
@@ -30,26 +29,30 @@ public class BoardRepository {
     }
 
     @Transactional
-    public BoardResponse create(BoardCreateRequest request, String writerId) {
+    public Board create(BoardCreateRequest request, String writerId) {
+        Student studentResult = queryFactory
+                .selectFrom(student)
+                .where(student.id.eq(writerId))
+                .fetchOne();
+
         Board board = Board.builder()
                 .title(request.getTitle())
                 .content(request.getContext())
-                .writerId(writerId)
+                .student(studentResult)
                 .boardCategory(request.getCategory())
                 .createdAt(DateUtil.getLocalDateTime())
                 .build();
 
         em.persist(board);
-        return board.toResponse();
+        return board;
     }
 
     @Transactional(readOnly = true)
-    public BoardResponse readById(Long id) {
+    public Board readById(Long id) {
         return queryFactory
                 .selectFrom(board)
                 .where(boardIdEq(id))
-                .fetchOne()
-                .toResponse();
+                .fetchOne();
     }
 
     private BooleanExpression boardIdEq(Long id) {
@@ -57,24 +60,18 @@ public class BoardRepository {
     }
 
     @Transactional(readOnly = true)
-    public List<BoardResponse> readAll() {
+    public List<Board> readAll() {
         return queryFactory
                 .selectFrom(board)
-                .fetch()
-                .stream()
-                .map(Board::toResponse)
-                .toList();
+                .fetch();
     }
 
     @Transactional(readOnly = true)
-    public List<BoardResponse> readAllByCondition(BoardSearchRequest request) {
+    public List<Board> readAllByCondition(BoardSearchRequest request) {
         return queryFactory.selectFrom(board)
                 .where(titleLike(request.getTitle()))
                 .where(writerIdEq(request.getWriterId()))
-                .fetch()
-                .stream()
-                .map(Board::toResponse)
-                .toList();
+                .fetch();
     }
 
     private BooleanExpression titleLike(String title){
@@ -82,7 +79,7 @@ public class BoardRepository {
     }
 
     @Transactional
-    public BoardResponse update(BoardUpdateRequest request, String writerId){
+    public Board update(BoardUpdateRequest request, String writerId){
         queryFactory.update(board)
                 .where(boardIdEq(request.getId()), writerIdEq(writerId))
                 .set(board.title, request.getTitle())
@@ -93,12 +90,11 @@ public class BoardRepository {
         return queryFactory
                 .selectFrom(board)
                 .where(boardIdEq(request.getId()))
-                .fetchOne()
-                .toResponse();
+                .fetchOne();
     }
 
     private BooleanExpression writerIdEq(String writerId) {
-        return writerId != null ? board.writerId.eq(writerId) : null;
+        return writerId != null ? board.student.id.eq(writerId) : null;
     }
 
     @Transactional
@@ -110,20 +106,9 @@ public class BoardRepository {
     }
 
     @Transactional(readOnly = true)
-    protected Student readNameByWriterId(String writerId) {
-        return queryFactory
-                .selectFrom(student)
-                .where(student.id.eq(writerId))
-                .fetchOne();
-    }
-
-    @Transactional(readOnly = true)
-    public List<BoardResponse> readByWriterId(String writerId) {
+    public List<Board> readByWriterId(String writerId) {
         return queryFactory.selectFrom(board)
                 .where(writerIdEq(writerId))
-                .fetch()
-                .stream()
-                .map(Board::toResponse)
-                .toList();
+                .fetch();
     }
 }
