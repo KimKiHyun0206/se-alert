@@ -6,6 +6,7 @@ import com.se.board.domain.Board;
 import com.se.board.repository.BoardRepository;
 import com.se.comment.domain.Comment;
 import com.se.comment.dto.request.CommentCreateRequest;
+import com.se.comment.dto.request.CommentUpdateRequest;
 import com.se.student.domain.Student;
 import com.se.student.repository.StudentRepository;
 import com.se.util.DateUtil;
@@ -44,7 +45,6 @@ public class CommentRepository {
                 .build();
 
 
-
         resultBoard.addComment(writedComment);
         em.persist(writedComment);
 
@@ -60,9 +60,31 @@ public class CommentRepository {
         return studentId != null ? student.id.eq(studentId) : null;
     }
 
+    @Transactional(readOnly = true)
     public Comment readComment(Long commentId) {
         return queryFactory.selectFrom(comment)
                 .where(comment.id.eq(commentId))
                 .fetchOne();
+    }
+
+    @Transactional
+    public Comment updateComment(CommentUpdateRequest request, String writerId, Long commentId) {
+        queryFactory.update(comment)
+                .where(comment.id.eq(commentId))
+                .where(comment.student.id.eq(writerId))
+                .set(comment.context, request.getContext())
+                .set(comment.modifiedAt, DateUtil.getLocalDateTime())
+                .execute();
+
+        return readComment(commentId);
+    }
+
+    @Transactional
+    public boolean deleteComment(Long commentId, String writerId) {
+        long execute = queryFactory.delete(comment)
+                .where(comment.id.eq(commentId))
+                .where(comment.student.id.eq(writerId))
+                .execute();
+        return execute > 0;
     }
 }

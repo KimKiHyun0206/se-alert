@@ -36,7 +36,12 @@ public enum ResponseMessage {
     //UPLOAD_IMAGE_SUCCESS(HttpStatus.CREATED, "이미지 업로드 성공"),
 
 
+    //COMMENT
     COMMENT_CREATE_SUCCESS(HttpStatus.OK,"댓글 생성에 성공했습니다"),
+    COMMENT_READ_SUCCESS(HttpStatus.OK, "댓글 조회 성공했습니다"),
+    COMMENT_UPDATE_SUCCESS(HttpStatus.OK,"댓글 수정에 성공했습니다"),
+    COMMENT_DELETE_SUCCESS(HttpStatus.OK,"댓글 삭제 성공했습니다"),
+    COMMENT_DELETE_FAIL(HttpStatus.BAD_REQUEST,"댓글 삭제 실패했습니다"),
 
 
     //NOTICE

@@ -2,6 +2,7 @@ package com.se.comment.domain;
 
 import com.se.board.domain.Board;
 import com.se.comment.dto.response.CommentResponse;
+import com.se.comment.dto.response.DefaultCommentResponse;
 import com.se.common.BaseEntity;
 import com.se.student.domain.Student;
 import jakarta.persistence.*;
@@ -29,19 +30,28 @@ public class Comment extends BaseEntity {
     private String context;
 
     @Builder
-    public Comment(Long id, Student student, String context, LocalDateTime createdAt, LocalDateTime modifiedAt, Board board) {
+    public Comment(Long id, Student student, String context, LocalDateTime createdAt, Board board) {
         this.id = id;
         this.student = student;
         this.board = board;
         this.context = context;
         super.createdAt = createdAt;
-        super.modifiedAt = modifiedAt;
     }
 
     public CommentResponse toResponse() {
         return CommentResponse.builder()
                 .id(id)
                 .context(context)
+                .build();
+    }
+
+    public DefaultCommentResponse toDefaultResponse() {
+        return DefaultCommentResponse
+                .builder()
+                .comment(context)
+                .writerName(student.getName().getName())
+                .createdAt(super.createdAt)
+                .isModified(super.modifiedAt != null)
                 .build();
     }
 }
