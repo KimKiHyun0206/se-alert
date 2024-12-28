@@ -1,7 +1,5 @@
 package com.se.comment.dto.response;
 
-import com.se.board.domain.Board;
-import com.se.student.domain.Student;
 import lombok.Builder;
 import lombok.Data;
 

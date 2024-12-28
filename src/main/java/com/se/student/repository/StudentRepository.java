@@ -8,7 +8,6 @@ import com.se.student.domain.vo.Name;
 import com.se.student.domain.vo.PhoneNumber;
 import com.se.student.dto.request.StudentCreateRequest;
 import com.se.student.dto.request.StudentUpdateRequest;
-import com.se.student.dto.response.StudentResponse;
 import jakarta.persistence.EntityManager;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;

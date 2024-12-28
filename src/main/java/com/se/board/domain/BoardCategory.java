@@ -1,6 +1,5 @@
 package com.se.board.domain;
 
-import jakarta.persistence.Enumerated;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 

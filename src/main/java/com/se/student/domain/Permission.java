@@ -5,9 +5,7 @@ import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
 
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Map;
 import java.util.Set;
 
 @Entity

@@ -1,10 +1,8 @@
 package com.se.board.service;
 
 import com.se.board.domain.Board;
-import com.se.board.dto.request.BoardCreateRequest;
 import com.se.board.dto.response.BoardListResponse;
 import com.se.board.dto.response.DefaultBoardResponse;
-import com.se.board.dto.response.FullBoardResponse;
 import com.se.board.repository.BoardRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

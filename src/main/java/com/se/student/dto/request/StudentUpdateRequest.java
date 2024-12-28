@@ -1,6 +1,5 @@
 package com.se.student.dto.request;
 
-import com.se.student.domain.vo.PhoneNumber;
 import lombok.Data;
 
 @Data

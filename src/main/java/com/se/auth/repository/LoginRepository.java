@@ -28,7 +28,6 @@ public class LoginRepository implements UserDetailsService {
         this.queryFactory = new JPAQueryFactory(em);
     }
 
-
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Student loaded = queryFactory
