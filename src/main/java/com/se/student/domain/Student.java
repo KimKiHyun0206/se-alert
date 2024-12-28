@@ -3,6 +3,7 @@ package com.se.student.domain;
 import com.se.board.domain.Board;
 import com.se.comment.domain.Comment;
 import com.se.common.BaseEntity;
+import com.se.notice.domain.Notice;
 import com.se.student.domain.converter.PasswordEncodeConverter;
 import com.se.student.domain.vo.Name;
 import com.se.student.domain.vo.PhoneNumber;
@@ -38,6 +39,9 @@ public class Student extends BaseEntity {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "student")
     private List<Comment> comments = new ArrayList<>();
 
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "student")
+    private List<Notice> notices = new ArrayList<>();
+
     @Builder
     public Student(String id, String password, Name name, PhoneNumber phoneNumber, String aboutMe, Long permission) {
         this.id = id;
@@ -66,5 +70,9 @@ public class Student extends BaseEntity {
         this.name = name;
         this.phoneNumber = phoneNumber;
         this.aboutMe = aboutMe;
+    }
+
+    public void addNotice(Notice notice) {
+        notices.add(notice);
     }
 }
