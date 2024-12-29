@@ -23,7 +23,7 @@ public class Board extends BaseEntity {
     @Column(name = "board_id")
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "student_id")
     private Student student;
     private String title;
@@ -32,7 +32,7 @@ public class Board extends BaseEntity {
     @Enumerated
     private BoardCategory boardCategory;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "board")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "board", cascade = CascadeType.ALL)
     private List<Comment> comments = new ArrayList<>();
 
     @Builder
@@ -61,6 +61,7 @@ public class Board extends BaseEntity {
                 .builder()
                 .title(title)
                 .content(content)
+                .boardCategory(boardCategory)
                 .userName(student.getName().getName())
                 .comments(comments)
                 .build();

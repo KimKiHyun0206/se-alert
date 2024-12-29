@@ -2,6 +2,7 @@ package com.se.board.repository;
 
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import com.se.aop.trace.Trace;
 import com.se.board.domain.Board;
 import com.se.board.dto.request.BoardCreateRequest;
 import com.se.board.dto.request.BoardSearchRequest;
@@ -15,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 import static com.se.board.domain.QBoard.board;
+import static com.se.student.domain.QStudent.student;
 
 @Repository
 public class BoardRepository {
@@ -42,11 +44,15 @@ public class BoardRepository {
         return board;
     }
 
+    @Trace
     @Transactional(readOnly = true)
     public Board readById(Long id) {
         return queryFactory
                 .selectFrom(board)
                 .where(boardIdEq(id))
+                .join(board.student, student)
+                .fetchJoin()
+                .distinct()
                 .fetchOne();
     }
 
@@ -58,6 +64,9 @@ public class BoardRepository {
     public List<Board> readAll() {
         return queryFactory
                 .selectFrom(board)
+                .join(student.boards)
+                .fetchJoin()
+                .distinct()
                 .fetch();
     }
 
@@ -66,6 +75,9 @@ public class BoardRepository {
         return queryFactory.selectFrom(board)
                 .where(titleLike(request.getTitle()))
                 .where(writerIdEq(request.getWriterId()))
+                .join(student.boards)
+                .fetchJoin()
+                .distinct()
                 .fetch();
     }
 
@@ -82,10 +94,7 @@ public class BoardRepository {
                 .set(board.modifiedAt, DateUtil.getLocalDateTime())
                 .execute();
 
-        return queryFactory
-                .selectFrom(board)
-                .where(boardIdEq(request.getId()))
-                .fetchOne();
+        return readById(request.getId());
     }
 
     private BooleanExpression writerIdEq(String writerId) {
