@@ -3,6 +3,7 @@ package com.se.auth.controller;
 import com.se.common.dto.ResponseDto;
 import com.se.common.dto.ResponseMessage;
 import com.se.util.TokenResolveUtil;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -23,5 +24,11 @@ public class TokenController {
         log.info("TOKEN VALUE {}",token);
         Authentication authentication = TokenResolveUtil.getAuthentication(token);
         return ResponseDto.toResponseEntity(ResponseMessage.SUCCESS, authentication);
+    }
+
+    @GetMapping("/header")
+    public ResponseEntity<?> getTokenName(HttpServletRequest request) {
+        String id = TokenResolveUtil.resolveTokenAndGetUserId(request);
+        return ResponseDto.toResponseEntity(ResponseMessage.SUCCESS, id);
     }
 }
