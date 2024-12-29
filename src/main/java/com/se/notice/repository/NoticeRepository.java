@@ -17,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 import static com.se.notice.domain.QNotice.notice;
+import static com.se.student.domain.QStudent.student;
 
 @Slf4j
 @Repository
@@ -56,6 +57,8 @@ public class NoticeRepository {
         return queryFactory
                 .selectFrom(notice)
                 .where(noticeIdEq(id))
+                .join(notice.student, student).fetchJoin()
+                .distinct()
                 .fetchOne();
     }
 
@@ -63,6 +66,8 @@ public class NoticeRepository {
     public List<Notice> readAll(Long num) {
         return queryFactory
                 .selectFrom(notice)
+                .join(notice.student, student).fetchJoin()
+                .distinct()
                 .limit(num)
                 .fetch();
     }

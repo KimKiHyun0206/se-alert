@@ -5,6 +5,7 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.se.board.domain.Board;
 import com.se.board.repository.BoardRepository;
 import com.se.comment.domain.Comment;
+import com.se.comment.domain.QComment;
 import com.se.comment.dto.request.CommentCreateRequest;
 import com.se.comment.dto.request.CommentUpdateRequest;
 import com.se.student.domain.Student;
@@ -52,26 +53,22 @@ public class CommentRepository {
         return writedComment;
     }
 
-    private BooleanExpression boardIdEq(Long boardId) {
-        return boardId != null ? board.id.eq(boardId) : null;
-    }
-
-    private BooleanExpression studentIdEq(String studentId) {
-        return studentId != null ? student.id.eq(studentId) : null;
-    }
-
     @Transactional(readOnly = true)
     public Comment readComment(Long commentId) {
-        return queryFactory.selectFrom(comment)
-                .where(comment.id.eq(commentId))
+        return queryFactory
+                .selectFrom(comment)
+                .join(comment.student, student).fetchJoin()
+                .join(comment.board, board).fetchJoin()
+                .where(commentIdEq(commentId))
+                .distinct()
                 .fetchOne();
     }
 
     @Transactional
     public Comment updateComment(CommentUpdateRequest request, String writerId, Long commentId) {
         queryFactory.update(comment)
-                .where(comment.id.eq(commentId))
-                .where(comment.student.id.eq(writerId))
+                .where(commentIdEq(commentId))
+                .where(studentIdEq(writerId))
                 .set(comment.context, request.getContext())
                 .set(comment.modifiedAt, DateUtil.getLocalDateTime())
                 .execute();
@@ -82,9 +79,17 @@ public class CommentRepository {
     @Transactional
     public boolean deleteComment(Long commentId, String writerId) {
         long execute = queryFactory.delete(comment)
-                .where(comment.id.eq(commentId))
-                .where(comment.student.id.eq(writerId))
+                .where(commentIdEq(commentId))
+                .where(studentIdEq(writerId))
                 .execute();
         return execute > 0;
+    }
+
+    private BooleanExpression commentIdEq(Long commentId){
+        return commentId != null ? comment.id.eq(commentId) : null;
+    }
+
+    private BooleanExpression studentIdEq(String studentId){
+        return studentId != null ? comment.student.id.eq(studentId) : null;
     }
 }
