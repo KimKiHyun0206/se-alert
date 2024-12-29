@@ -3,6 +3,7 @@ package com.se.aop.trace;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
+import org.aspectj.lang.annotation.After;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 
@@ -16,7 +17,7 @@ public class TraceAspect {
         log.info("[trace] {} args= {}", joinPoint.getSignature(), args);
     }
 
-    //@After("@annotation(com.se.aop.trace.Trace)")
+    @After("@annotation(com.se.aop.trace.Trace)")
     public void doAfterTrace(JoinPoint joinPoint) {
         Object[] args = joinPoint.getArgs();
         log.info("[trace] {} args= {}", joinPoint.getSignature(), args);
