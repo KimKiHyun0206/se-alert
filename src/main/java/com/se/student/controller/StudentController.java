@@ -17,7 +17,7 @@ public class StudentController {
     private final StudentService studentService;
 
     @PostMapping
-    public ResponseEntity<?> create(@RequestBody StudentCreateRequest request) {
+    public ResponseEntity<?> createStudent(@RequestBody StudentCreateRequest request) {
         return ResponseDto.toResponseEntity(
                 ResponseMessage.CREATE_SUCCESS_STUDENT,
                 studentService.create(request)
@@ -25,7 +25,7 @@ public class StudentController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> read(@PathVariable(value = "id") String id) {
+    public ResponseEntity<?> readStudent(@PathVariable(value = "id") String id) {
         return ResponseDto.toResponseEntity(
                 ResponseMessage.SUCCESS_LOAD_STUDENT_INFORMATION,
                 studentService.readById(id)
@@ -33,7 +33,7 @@ public class StudentController {
     }
 
     @GetMapping
-    public ResponseEntity<?> readAll() {
+    public ResponseEntity<?> readAllStudent() {
         return ResponseDto.toResponseEntity(
                 ResponseMessage.SUCCESS_SEARCH_ALL_STUDENT,
                 studentService.readAll()
@@ -41,7 +41,7 @@ public class StudentController {
     }
 
     @GetMapping("/student-number/{year}")
-    public ResponseEntity<?> readByYear(@PathVariable(value = "year") Long year) {
+    public ResponseEntity<?> readStudentByYear(@PathVariable(value = "year") Long year) {
         return ResponseDto.toResponseEntity(
                 ResponseMessage.SUCCESS_SEARCH_STUDENT_NUMBER,
                 studentService.readByYear(year)
@@ -49,7 +49,7 @@ public class StudentController {
     }
 
     @GetMapping("/name/{name}")
-    public ResponseEntity<?> readByName(@PathVariable(value = "name") String name) {
+    public ResponseEntity<?> readStudentByName(@PathVariable(value = "name") String name) {
         return ResponseDto.toResponseEntity(
                 ResponseMessage.SUCCESS_SEARCH_STUDENT_NAME,
                 studentService.readByName(name)
@@ -57,7 +57,7 @@ public class StudentController {
     }
 
     @GetMapping("/permission/{permission}")
-    public ResponseEntity<?> readByPermission(@PathVariable(value = "permission") Long permission) {
+    public ResponseEntity<?> readStudentByPermission(@PathVariable(value = "permission") Long permission) {
         return ResponseDto.toResponseEntity(
                 ResponseMessage.SUCCESS_SEARCH_STUDENT_PERMISSION,
                 studentService.readByPermission(permission)
@@ -65,7 +65,7 @@ public class StudentController {
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<?> update(@PathVariable(value = "id") String id, @RequestBody StudentUpdateRequest request) {
+    public ResponseEntity<?> updateStudent(@PathVariable(value = "id") String id, @RequestBody StudentUpdateRequest request) {
         return ResponseDto.toResponseEntity(
                 ResponseMessage.SUCCESS_UPDATE_STUDENT,
                 studentService.update(id, request)
